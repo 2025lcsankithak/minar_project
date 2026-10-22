@@ -92,6 +92,7 @@ input,select,textarea{border-color:#dddcd1}
 input:focus,select:focus,textarea:focus{border-color:#91a17f;box-shadow:0 0 0 3px rgba(125,145,105,.14)}
 .badge,.status{background:#eff0e9;color:#626b58}
 .status.approved{background:#e5f0e4;color:#4d7651}
+.status.confirmed{background:#ddede4;color:#236544}
 .status.pending{background:#fbf0dc;color:#946b32}
 .status.rejected{background:#f7e8e2;color:#a35443}
 th{color:#77796e}
@@ -208,6 +209,148 @@ body,main{background:#eeece6}
 .admin-portal th{color:#776b78}
 .admin-portal tbody tr:hover{background:#fcf7fb}
 .admin-portal .request-row{border-color:#eee4ed}
+.meeting-panel{padding:26px;border-color:#d8e1d9;background:linear-gradient(145deg,#fff 0%,#fbfcfa 100%)}
+.meeting-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:0;padding-bottom:0;border-bottom:0;cursor:pointer;list-style:none}
+.meeting-panel-heading::-webkit-details-marker{display:none}
+.meeting-heading-copy{display:grid;gap:4px}
+.meeting-heading-copy .eyebrow{margin:0}
+.meeting-panel-title{display:block;margin:0 0 1px;font:700 23px 'Playfair Display';color:var(--ink)}
+.meeting-panel[open] .meeting-panel-heading{margin-bottom:22px;padding-bottom:17px;border-bottom:1px solid #e6eae5}
+.meeting-disclosure-label{flex:none;padding:8px 12px;border:1px solid #dce5dd;border-radius:999px;background:#f4f8f5;color:#42624b;font-size:11px;font-weight:800;white-space:nowrap}
+.meeting-panel:not([open]) .meeting-disclosure-label::after{content:'  +';font-size:15px}
+.meeting-panel[open] .meeting-disclosure-label::after{content:'  −';font-size:15px}
+.meeting-panel-heading .muted{margin-bottom:0}
+.meeting-panel-heading{display:block;margin-bottom:22px;padding-bottom:17px;border-bottom:1px solid #e6eae5;background:transparent;cursor:default}
+.meeting-panel-heading:hover{background:transparent}
+.meeting-panel-heading{border-radius:8px;transition:background-color .18s ease}
+.meeting-panel-heading:hover{background:#f7faf7}
+.meeting-panel-heading:focus-visible{outline:3px solid rgba(89,126,101,.24);outline-offset:4px}
+.meeting-panel-title{line-height:1.25}
+.meeting-disclosure-label{display:inline-flex;align-items:center;gap:9px;padding:9px 13px;transition:background-color .18s ease,border-color .18s ease}
+.meeting-panel-heading:hover .meeting-disclosure-label{border-color:#bfd0c1;background:#edf4ee}
+.meeting-panel:not([open]) .meeting-disclosure-label::after{content:'+';font-size:16px;line-height:1}
+.meeting-panel[open] .meeting-disclosure-label::after{content:'-';font-size:16px;line-height:1}
+.meeting-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.meeting-group{min-width:0;padding:20px;border:1px solid #e0e6e0;border-radius:12px;background:#f8faf8;box-shadow:0 3px 12px rgba(28,47,37,.035)}
+.meeting-group-heading,.meeting-slot-top,.meeting-request-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.meeting-group-heading{margin-bottom:14px}
+.meeting-group-heading .eyebrow{margin-bottom:5px}
+.meeting-group-heading h3{margin:0;font-size:16px;line-height:1.4}
+.meeting-count,.meeting-mode{flex:none;padding:5px 9px;border-radius:999px;background:#e9efeb;color:#35564a;font:11px 'DM Mono';white-space:nowrap}
+.meeting-count{background:#e8efe9;color:#355c41}
+.meeting-mode{background:#eef1f5;color:#4d5c71}
+.meeting-slot-list,.meeting-request-list{display:grid;gap:11px}
+.meeting-slot-card,.meeting-request-card{min-width:0;padding:16px;border:1px solid #e4e9e4;border-radius:10px;background:#fff;box-shadow:0 2px 8px rgba(28,47,37,.025)}
+.meeting-slot-card{border-left:3px solid #8aaa91;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.meeting-slot-card:hover{border-color:#b9cec0;border-left-color:#5d8065;transform:translateY(-1px);box-shadow:0 7px 18px rgba(28,47,37,.07)}
+.meeting-request-card{border-left:3px solid #d2b46e}
+.meeting-request-approved,.meeting-request-confirmed{border-left-color:#77a184}
+.meeting-request-rejected{border-left-color:#cb8585}
+.meeting-slot-top>div,.meeting-request-top>div{display:grid;gap:4px}
+.meeting-date{color:var(--muted);font:11px 'DM Mono';text-transform:uppercase;letter-spacing:.35px}
+.meeting-slot-top strong,.meeting-request-top strong{font-size:16px}
+.meeting-description{margin:12px 0 0;color:#586361;font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+.meeting-book-form{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px;margin-top:15px;padding-top:13px;border-top:1px solid #edf0ec}
+.meeting-book-form label{min-width:0}
+.meeting-book-form input{min-height:40px;background:#fcfdfb}
+.meeting-book-form button,.meeting-confirm-form button{white-space:nowrap}
+.meeting-request-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px;color:var(--muted);font-size:11px}
+.meeting-request-meta span{padding:4px 8px;border-radius:5px;background:#f3f3ef}
+.meeting-status-note{margin:11px 0 0;color:var(--muted);font-size:12px}
+.meeting-confirm-form{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;padding-top:12px;border-top:1px solid #eee;color:#52645a;font-size:12px}
+.meeting-empty{display:grid;place-content:center;min-height:140px;padding:24px 18px;border:1px dashed #d0d9d1;border-radius:10px;background:#fff;text-align:center}
+.meeting-empty strong{font-size:13px}
+.meeting-empty p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+@media(max-width:800px){.meeting-columns{grid-template-columns:1fr}}
+@media(max-width:550px){.meeting-panel{padding:18px}.meeting-group{padding:15px}.meeting-book-form{grid-template-columns:1fr}.meeting-book-form button{width:100%}.meeting-confirm-form{align-items:stretch;flex-direction:column}}
+@media(max-width:550px){.meeting-panel-heading{align-items:flex-start}.meeting-panel-title{font-size:21px}.meeting-disclosure-label{padding:8px 10px}}
+.meeting-review-panel>.panel-title{align-items:center;margin-bottom:18px}
+.meeting-review-panel>.panel-title h2{margin-bottom:5px}
+.meeting-review-panel>.panel-title .muted{margin:0}
+.mentor-meeting-card{padding:17px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.meeting-review-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #eee}
+.meeting-review-actions .secondary{margin-top:0}
+.mentor-course-request-list{display:grid;gap:12px;margin-top:16px}
+.mentor-course-request{padding:16px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.mentor-course-request-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mentor-course-request-heading>div{display:grid;gap:4px;min-width:0}
+.mentor-course-request-heading strong{font-size:14px}
+.mentor-course-request-heading small{color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+.mentor-course-request-total{margin:13px 0 8px;color:var(--muted);font-size:12px}
+.mentor-course-request-total strong{color:var(--ink)}
+.mentor-course-table{margin:0 0 12px;border:1px solid var(--line);border-radius:8px}
+.mentor-course-table th,.mentor-course-table td{padding:9px 10px}
+.mentor-course-table th:last-child,.mentor-course-table td:last-child{width:75px;white-space:nowrap}
+.mentor-course-request-document{padding-top:11px;border-top:1px solid #eee}
+.mentor-course-request-document a{color:var(--orange-dark);font-size:12px;font-weight:800}
+.mentor-course-request-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mentor-course-request-actions .secondary{margin-top:0}
+.mentor-course-request-actions button:disabled{background:#d8d8d2;color:#70736c;box-shadow:none;cursor:not-allowed;transform:none}
+.mentor-course-request-note{margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.announcement-form{max-width:760px;margin:18px 0 26px}
+.announcement-list-title{margin:0 0 12px}
+.announcement-list,.student-announcement-list{display:grid;gap:11px}
+.announcement-card,.student-announcement-card{padding:16px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.announcement-card-heading,.announcement-section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.announcement-card-heading h3,.student-announcement-card h3{margin:0 0 5px}
+.announcement-card-heading small,.student-announcement-card small{color:var(--muted);font-size:11px}
+.announcement-card-heading .secondary{margin-top:0}
+.announcement-card>p,.student-announcement-card>p{margin:12px 0 0;color:#4e5a58;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.student-announcements{border-top:3px solid #78917d}
+.announcement-section-heading{align-items:center;margin-bottom:14px}
+.announcement-section-heading h2{margin-bottom:0}
+@media(max-width:550px){.meeting-review-panel>.panel-title{align-items:flex-start;flex-direction:column}.announcement-card-heading{align-items:flex-start}.announcement-card-heading form{flex:none}}
+.student-card-button{display:grid;width:100%;gap:7px;text-align:left;color:var(--ink);font:inherit;background:#fff;cursor:pointer}
+.student-card-button:hover{border-color:#b8c6bb;background:#fbfdfb;transform:translateY(-2px)}
+.student-card-button:focus-visible{outline:3px solid rgba(89,126,101,.28);outline-offset:2px}
+.student-card-name{font-size:15px;font-weight:800}
+.student-card-summary,.student-card-email{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.student-card-hint{margin-top:3px;color:var(--orange-dark);font-size:11px;font-weight:800}
+.mentor-profile-card{display:block;width:100%;padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.mentor-profile-card:hover{border-color:#b9cec0;background:#f4f8f5;transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,32,25,.08)}
+.mentor-profile-card:focus-visible{outline:3px solid rgba(89,126,101,.28);outline-offset:2px}
+.mentor-profile-card-top{display:flex;align-items:center;gap:13px}
+.mentor-profile-card-top>span:last-child{display:grid;gap:4px;min-width:0}
+.mentor-profile-card-top .eyebrow{margin:0;color:var(--muted);font-size:10px}
+.mentor-profile-card-top strong{font-size:17px}
+.mentor-profile-card-top>span>span:last-child,.mentor-profile-email{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.mentor-profile-email{display:block;margin-top:16px;padding-top:13px;border-top:1px solid var(--line)}
+.mentor-profile-hint{display:flex;justify-content:space-between;align-items:center;margin-top:15px;color:var(--orange-dark);font-size:12px;font-weight:800}
+.mentor-dialog-meetings{margin-top:18px}
+.mentor-unassigned .avatar{margin-bottom:10px}
+.student-detail-dialog{width:min(620px,calc(100vw - 30px));max-height:calc(100vh - 30px);padding:22px;border:1px solid var(--line);border-radius:14px;color:var(--ink);background:#fff;box-shadow:0 24px 70px rgba(15,32,25,.22);overflow:auto}
+.student-detail-dialog::backdrop{background:rgba(18,34,31,.5);backdrop-filter:blur(2px)}
+.student-dialog-close{display:flex;justify-content:flex-end;margin-bottom:8px}
+.student-dialog-close .secondary{margin-top:0}
+.student-detail-heading{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.student-detail-heading h2{margin:0 0 4px}
+.student-detail-heading p:last-child{margin:0;color:var(--muted);font-size:12px}
+.student-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.student-detail-grid>div{display:grid;gap:5px;min-width:0;padding:12px;border-radius:8px;background:#f7f7f3}
+.student-detail-grid small{color:var(--muted);font-size:11px}
+.student-detail-grid strong{overflow-wrap:anywhere;font-size:13px}
+.availability-list{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.availability-list h3{margin:0 0 12px}
+.availability-time{display:grid;gap:4px;white-space:nowrap}
+.availability-time span{color:var(--muted);font-size:11px}
+.availability-time strong{font-size:13px}
+.availability-state{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700}
+.availability-state.is-open{background:#e5f0e4;color:#4d7651}
+.availability-state.is-closed{background:#f1efe9;color:#686258}
+.availability-state.is-booked{background:#fff0d6;color:#936018}
+.availability-state.is-empty{background:#e5f0e4;color:#4d7651}
+.availability-locked{display:inline-block;padding:7px 10px;border-radius:6px;background:#f1efe9;color:#686258;font-size:11px;font-weight:700}
+.availability-edit-note{margin:10px 0 0;padding:8px 10px;border-radius:6px;background:#fff8e8;color:#765b27;font-size:11px;line-height:1.45}
+.availability-edit-button{display:inline-block;padding:8px 12px;border:0;border-radius:6px;background:var(--orange);color:#fff;font:700 12px Manrope;cursor:pointer}
+.availability-edit-dialog{width:min(520px,calc(100vw - 30px));max-height:calc(100vh - 30px);padding:22px;border:1px solid var(--line);border-radius:14px;color:var(--ink);background:#fff;box-shadow:0 24px 70px rgba(15,32,25,.22);overflow:auto}
+.availability-edit-dialog::backdrop{background:rgba(18,34,31,.5);backdrop-filter:blur(2px)}
+.availability-dialog-close{display:flex;justify-content:flex-end;margin-bottom:8px}
+.availability-dialog-close .secondary,.availability-toggle-form .secondary{margin-top:0}
+.availability-edit-dialog h3{margin:0 0 14px}
+.availability-toggle-form{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.mentor-dashboard-sections{display:grid;grid-template-columns:minmax(0,1fr);gap:0;margin-bottom:22px}
+.mentor-dashboard-sections>.panel{width:100%;margin-bottom:22px}
+@media(max-width:550px){.student-detail-dialog{padding:17px}.student-detail-grid{grid-template-columns:1fr}}
 .admin-portal .welcome{background:linear-gradient(115deg,#f0e5ef 0%,#fff8fb 100%)}
 .admin-portal .welcome h2{color:#523c64}
 .admin-portal .welcome p:not(.eyebrow){color:#776b78}
@@ -240,6 +383,18 @@ body,main{background:#eeece6}
 .profile-edit summary{color:var(--orange-dark);font-weight:700;font-size:12px;cursor:pointer}
 .profile-edit form{margin-top:14px}
 .student-portal #courses .course-list{display:grid;gap:10px;margin:18px 0}
+.course-selection-summary{display:grid;gap:12px;margin-top:16px;padding:16px;border:1px solid var(--line);border-radius:9px;background:#fbfbf8}
+.course-selection-summary .announcement-card-heading{align-items:center}
+.course-selection-summary>small{color:var(--muted);font-size:11px}
+.course-document-field{margin:16px 0;color:#394541}
+.course-document-field input{margin-top:3px}
+.course-document-field small{display:block;color:var(--muted);font-size:11px;font-weight:500;line-height:1.5}
+.course-document-link{display:inline-block;margin-top:13px;color:var(--orange-dark);font-size:12px;font-weight:800}
+.course-request-edit{margin-top:15px;padding-top:13px;border-top:1px solid var(--line)}
+.course-request-edit>summary{color:var(--orange-dark);font-size:12px;font-weight:800;cursor:pointer}
+.course-request-edit-form{margin-top:12px}
+.course-request-locked{margin:12px 0 0;color:var(--muted);font-size:12px}
+.course-request-rejected-note{margin:13px 0 0;padding:11px 12px;border:1px solid #efc2ba;border-radius:8px;background:#fff0e7;color:#852e4e;font-size:12px;line-height:1.5}
 .student-portal #courses .course-choice{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:13px;width:100%;padding:14px 15px;border:1px solid #e4ded4;border-radius:10px;background:#fff;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background-color .18s ease,box-shadow .18s ease}
 .student-portal #courses .course-choice:hover{transform:translateY(-1px);border-color:#cbb5a8;background:#fffdfa;box-shadow:0 6px 16px rgba(72,58,45,.07)}
 .student-portal #courses .course-choice:focus-within{outline:3px solid rgba(157,92,66,.16);outline-offset:1px}
@@ -257,3 +412,319 @@ body,main{background:#eeece6}
 @media(max-width:700px){.academic-detail-layout{grid-template-columns:1fr}.academic-detail-layout .academic-detail-group{margin-top:12px}}
 @media(max-width:900px){.student-portal #courses>.split{grid-template-columns:1fr}}
 @media(max-width:900px){.admin-portal .user-chip{min-width:300px}}
+
+/* Student portal palette based on the plum, berry, rose, and peach reference. */
+.student-portal{--ink:#4c1d3d;--muted:#805c68;--paper:#fff5f1;--card:#fffdfa;--line:#f0d8d5;--orange:#dc586d;--orange-dark:#a33757;--mint:#ffdec9;--navy:#4c1d3d;background:linear-gradient(180deg,#4c1d3d 0%,#852e4e 220px,#a33757 390px,#dc586d 560px,#fb9590 760px,#ffbb94 100%);background-attachment:fixed;color:var(--ink)}
+.student-portal main{background:transparent}
+.student-portal main>header .eyebrow{color:#ffbb94}
+.student-portal main>header h1{color:#fff8f5}
+.student-portal .sidebar{background:linear-gradient(165deg,#4c1d3d 0%,#602342 55%,#852e4e 100%);border-right:1px solid rgba(255,187,148,.16);box-shadow:8px 0 30px rgba(58,18,44,.18);color:#fff5f1}
+.student-portal .brand{color:#fff8f5}
+.student-portal .brand span{color:#ffbb94}
+.student-portal .role-label{color:#f2b5ae}
+.student-portal .sidebar nav a{color:#f7dfe0}
+.student-portal .sidebar nav a.active,.student-portal .sidebar nav a:hover{border-color:rgba(255,187,148,.24);background:rgba(220,88,109,.24);color:#fffaf7}
+.student-portal .user-chip{border-color:#f2d8d2;background:#fffaf7;box-shadow:0 5px 18px rgba(76,29,61,.13)}
+.student-portal .avatar{background:#ffe2d1;color:#852e4e}
+.student-portal .stats article,.student-portal .panel,.student-portal .welcome{border-color:#f0d8d5;background:#fffdfa;box-shadow:0 10px 30px rgba(76,29,61,.1)}
+.student-portal .stats article:hover,.student-portal .panel:hover{box-shadow:0 14px 34px rgba(76,29,61,.16)}
+.student-portal .welcome{background:linear-gradient(120deg,#ffdec9 0%,#fff1e9 54%,#fbd0cc 100%)}
+.student-portal .welcome h2{color:#852e4e}
+.student-portal .welcome p:not(.eyebrow){color:#805c68}
+.student-portal .eyebrow,.student-portal .credit-badge b{color:#a33757}
+.student-portal button,.student-portal .button{background:#dc586d;box-shadow:0 5px 13px rgba(163,55,87,.18)}
+.student-portal button:hover,.student-portal .button:hover{background:#a33757;box-shadow:0 7px 17px rgba(133,46,78,.24)}
+.student-portal .secondary{background:#ffe7dd;color:#852e4e;box-shadow:none}
+.student-portal .secondary:hover{background:#ffd5ca;color:#4c1d3d;box-shadow:none}
+.student-portal input,.student-portal select,.student-portal textarea{border-color:#ebc9c9;background:#fffdfa}
+.student-portal input:focus,.student-portal select:focus,.student-portal textarea:focus{border-color:#dc586d;box-shadow:0 0 0 3px rgba(220,88,109,.16)}
+.student-portal .badge,.student-portal .status{background:#f8e5e3;color:#852e4e}
+.student-portal .status.pending{background:#ffeadc;color:#852e4e}
+.student-portal .status.approved,.student-portal .status.confirmed{background:#ffe1d2;color:#652541}
+.student-portal .status.rejected{background:#f7d5dc;color:#852e4e}
+.student-portal th{color:#805c68}
+.student-portal td{border-bottom-color:#f3e5e2}
+.student-portal tbody tr:hover{background:#fff5f1}
+.student-portal .notice.success{border-color:#efc2ba;background:#ffe9df;color:#652541}
+.student-portal .notice.warning{border-color:#efc2ba;background:#fff0e7;color:#852e4e}
+.student-portal .mentor-profile-card{background:#fffdfa;color:#4c1d3d}
+.student-portal .mentor-profile-card:hover{border-color:#dc8790;background:#fff0eb}
+.student-portal .course-choice{border-color:#f0d8d5;background:#fffdfa}
+.student-portal .course-choice:hover{border-color:#dc8790;background:#fff3ed}
+.student-portal .course-choice b,.student-portal .course-document-link{color:#a33757}
+.student-portal #courses .course-choice{border-color:#f0d8d5;background:#fffdfa}
+.student-portal #courses .course-choice:hover{border-color:#dc8790;background:#fff3ed;box-shadow:0 6px 16px rgba(133,46,78,.1)}
+.student-portal #courses .course-choice:has(input:checked){border-color:#dc586d;background:#fff0eb;box-shadow:0 4px 13px rgba(163,55,87,.12)}
+.student-portal #courses .course-choice input[type=checkbox]{accent-color:#a33757}
+.student-portal #courses .course-title strong{color:#852e4e}
+.student-portal #courses .course-type{background:#ffe9df;color:#852e4e}
+.student-portal #courses .course-credits{background:#fbe6df;color:#852e4e}
+.student-portal .course-selection-summary{border-color:#f0d8d5;background:#fff9f5}
+.student-portal .meeting-panel{border-color:#f0d8d5;background:linear-gradient(145deg,#fffdfa 0%,#fff6f1 100%)}
+.student-portal .meeting-group{border-color:#f0d8d5;background:#fff5f1}
+.student-portal .meeting-slot-card{border-color:#f0d8d5;border-left-color:#dc586d}
+.student-portal .meeting-slot-card:hover{border-color:#dc8790;border-left-color:#a33757;box-shadow:0 7px 18px rgba(133,46,78,.1)}
+.student-portal .meeting-request-card{border-color:#f0d8d5;border-left-color:#dc8790}
+.student-portal .meeting-request-approved,.student-portal .meeting-request-confirmed{border-left-color:#a33757}
+.student-portal .meeting-request-rejected{border-left-color:#852e4e}
+.student-portal .meeting-count{background:#ffe3d7;color:#852e4e}
+.student-portal .meeting-mode{background:#f8e5e3;color:#652541}
+.student-portal .meeting-empty{border-color:#e9bfc1;background:#fffaf7}
+.student-portal .student-announcement-card{border-color:#f0d8d5;background:#fffdfa}
+.student-portal .student-detail-dialog{border-color:#f0d8d5;background:#fffdfa;color:#4c1d3d}
+.student-portal .student-detail-dialog::backdrop{background:rgba(76,29,61,.58)}
+.student-portal .student-detail-grid>div{background:#fff3ed}
+@media(max-width:900px){.student-portal main{background:transparent}}
+
+/* Soft mentor theme: powder blue, lavender, and slate. */
+.mentor-portal{--mentor-cream:#f2f5fa;--mentor-sand:#e1e8f3;--mentor-pink:#c9c9e2;--mentor-burgundy:#59647f;--ink:#354258;--muted:#778197;--paper:#f2f5fa;--card:#fff;--line:#e0e6f0;--orange:#777da7;--orange-dark:#626a91;--mint:#ececf7;--navy:#59647f;background:var(--mentor-cream);color:var(--ink)}
+.mentor-portal main{background:transparent}
+.mentor-portal main>header .eyebrow{color:#777da7}
+.mentor-portal main>header h1{color:var(--mentor-burgundy)}
+.mentor-portal .sidebar{background:var(--mentor-burgundy);border-right:1px solid rgba(255,255,255,.16);box-shadow:8px 0 24px rgba(53,66,88,.1);color:#fff}
+.mentor-portal .brand{color:#fffdfa}
+.mentor-portal .brand span{color:var(--mentor-sand)}
+.mentor-portal .role-label{color:#d9dced}
+.mentor-portal .sidebar nav a{color:#edf0f7}
+.mentor-portal .sidebar nav a.active,.mentor-portal .sidebar nav a:hover{border-color:rgba(201,201,226,.42);background:rgba(201,201,226,.17);color:#fff}
+.mentor-portal .user-chip,.mentor-portal .stats article,.mentor-portal .panel,.mentor-portal .student-card,.mentor-portal .mentor-course-request{border-color:var(--line);background:var(--card)}
+.mentor-portal .user-chip{box-shadow:0 4px 14px rgba(53,66,88,.045)}
+.mentor-portal .avatar,.mentor-portal .secondary,.mentor-portal .badge,.mentor-portal .status,.mentor-portal .availability-state.is-empty{background:#ececf7;color:var(--mentor-burgundy)}
+.mentor-portal .stats article,.mentor-portal .panel,.mentor-portal .welcome{box-shadow:0 8px 22px rgba(53,66,88,.045)}
+.mentor-portal .stats article:hover,.mentor-portal .panel:hover{box-shadow:0 11px 26px rgba(53,66,88,.075)}
+.mentor-portal .welcome{border-color:var(--mentor-sand);background:var(--mentor-sand)}
+.mentor-portal .welcome h2,.mentor-portal .mentor-course-request-total strong{color:var(--mentor-burgundy)}
+.mentor-portal .welcome p:not(.eyebrow){color:#68748b}
+.mentor-portal .eyebrow,.mentor-portal .credit-badge b,.mentor-portal .student-card-hint,.mentor-portal .mentor-course-request-document a,.mentor-portal .course-choice b{color:var(--mentor-burgundy)}
+.mentor-portal button,.mentor-portal .button,.mentor-portal .availability-edit-button{background:var(--mentor-burgundy);color:#fff;box-shadow:0 4px 10px rgba(53,66,88,.1)}
+.mentor-portal button:hover,.mentor-portal .button:hover{background:#48536d;box-shadow:0 6px 14px rgba(53,66,88,.15)}
+.mentor-portal .secondary{box-shadow:none}
+.mentor-portal .secondary:hover,.mentor-portal .student-card-button:hover{background:var(--mentor-sand);color:#48536d}
+.mentor-portal input,.mentor-portal select,.mentor-portal textarea{border-color:var(--line);background:var(--card)}
+.mentor-portal input:focus,.mentor-portal select:focus,.mentor-portal textarea:focus{border-color:var(--mentor-pink);box-shadow:0 0 0 3px rgba(119,125,167,.18)}
+.mentor-portal .status.pending{background:#f4e8d8;color:#6b493d}
+.mentor-portal .status.approved,.mentor-portal .status.confirmed,.mentor-portal .notice.success{border-color:#cbd5c0;background:#eef2e8;color:#43533d}
+.mentor-portal .status.rejected,.mentor-portal .availability-state.is-booked{background:#f1e7eb;color:#795d70}
+.mentor-portal th{color:var(--muted)}
+.mentor-portal td{border-bottom-color:#f0e9e1}
+.mentor-portal tbody tr:hover{background:#f8f9fc}
+.mentor-portal .notice.warning{border-color:var(--mentor-sand);background:#f6eee5;color:#5f4037}
+.mentor-portal .student-card:hover{border-color:var(--mentor-pink);box-shadow:0 7px 18px rgba(53,66,88,.07)}
+.mentor-portal .student-card-button{background:var(--card);color:var(--mentor-burgundy)}
+.mentor-portal .availability-edit-dialog,.mentor-portal .student-detail-dialog{border-color:var(--line);background:var(--card);color:var(--mentor-burgundy)}
+.mentor-portal .availability-edit-dialog::backdrop,.mentor-portal .student-detail-dialog::backdrop{background:rgba(48,57,79,.42)}
+.mentor-portal .student-detail-grid>div{background:#f3f4fa}
+.mentor-portal .logout-link{color:var(--mentor-pink)}
+
+/* Dark mentor theme: midnight plum, warm ivory, and rose gold. */
+.mentor-portal{--mentor-cream:#17151b;--mentor-sand:#302a32;--mentor-pink:#c99a91;--mentor-burgundy:#211d26;--ink:#f2ece8;--muted:#b0a5a5;--paper:#17151b;--card:#211d26;--line:#3a323b;--orange:#bd887d;--orange-dark:#a9746b;--mint:#342c34;--navy:#211d26;background:var(--mentor-cream);color:var(--ink)}
+.mentor-portal main>header .eyebrow,.mentor-portal .eyebrow,.mentor-portal .credit-badge b,.mentor-portal .student-card-hint,.mentor-portal .mentor-course-request-document a,.mentor-portal .course-choice b{color:#d2a098}
+.mentor-portal main>header h1{color:#f5eeea}
+.mentor-portal .sidebar{background:#100f14;border-color:#302831;box-shadow:8px 0 28px rgba(0,0,0,.2);color:#f5eeea}
+.mentor-portal .brand{color:#fff9f4}
+.mentor-portal .brand span,.mentor-portal .logout-link{color:#d5a69e}
+.mentor-portal .role-label{color:#bdafb1}
+.mentor-portal .sidebar nav a{color:#d6ccce}
+.mentor-portal .sidebar nav a.active,.mentor-portal .sidebar nav a:hover{border-color:rgba(201,154,145,.28);background:rgba(201,154,145,.13);color:#fff9f4}
+.mentor-portal .user-chip,.mentor-portal .stats article,.mentor-portal .panel,.mentor-portal .student-card,.mentor-portal .mentor-course-request{border-color:var(--line);background:var(--card);color:var(--ink)}
+.mentor-portal .user-chip{box-shadow:0 5px 18px rgba(0,0,0,.14)}
+.mentor-portal .user-chip small,.mentor-portal .stats small,.mentor-portal .stats span,.mentor-portal th{color:var(--muted)}
+.mentor-portal .avatar,.mentor-portal .secondary,.mentor-portal .badge,.mentor-portal .status,.mentor-portal .availability-state.is-empty{background:#342c34;color:#e7c1b8}
+.mentor-portal .stats article,.mentor-portal .panel,.mentor-portal .welcome{box-shadow:0 9px 26px rgba(0,0,0,.14)}
+.mentor-portal .stats article:hover,.mentor-portal .panel:hover{box-shadow:0 13px 30px rgba(0,0,0,.2)}
+.mentor-portal .welcome{border-color:#51404a;background:linear-gradient(120deg,#302630 0%,#28232c 100%)}
+.mentor-portal .welcome h2,.mentor-portal .mentor-course-request-total strong{color:#f4e8e1}
+.mentor-portal .welcome p:not(.eyebrow){color:#c2b5b2}
+.mentor-portal button,.mentor-portal .button,.mentor-portal .availability-edit-button{background:#a9746b;color:#fff9f5;box-shadow:0 4px 12px rgba(0,0,0,.16)}
+.mentor-portal button:hover,.mentor-portal .button:hover{background:#bd887d;box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.mentor-portal .secondary{background:#342c34;color:#f0e4df;box-shadow:none}
+.mentor-portal .secondary:hover,.mentor-portal .student-card-button:hover{background:#42353d;color:#fff4ed}
+.mentor-portal input,.mentor-portal select,.mentor-portal textarea{border-color:#493c45;background:#19171d;color:#f2ece8}
+.mentor-portal input::placeholder,.mentor-portal textarea::placeholder{color:#94878c}
+.mentor-portal input:focus,.mentor-portal select:focus,.mentor-portal textarea:focus{border-color:#c99a91;box-shadow:0 0 0 3px rgba(201,154,145,.19)}
+.mentor-portal .status.pending{background:#44372c;color:#e7c58d}
+.mentor-portal .status.approved,.mentor-portal .status.confirmed,.mentor-portal .notice.success{border-color:#435348;background:#29382f;color:#b8d3bd}
+.mentor-portal .status.rejected,.mentor-portal .availability-state.is-booked{background:#482f36;color:#e4aeb2}
+.mentor-portal td{border-bottom-color:#39323a}
+.mentor-portal tbody tr:hover{background:#29242c}
+.mentor-portal .notice.warning{border-color:#574438;background:#332b27;color:#e2c5a0}
+.mentor-portal .student-card:hover{border-color:#9c706b;box-shadow:0 8px 22px rgba(0,0,0,.2)}
+.mentor-portal .student-card-button{background:var(--card);color:var(--ink)}
+.mentor-portal .availability-edit-dialog,.mentor-portal .student-detail-dialog{border-color:#493c45;background:#211d26;color:var(--ink)}
+.mentor-portal .availability-edit-dialog::backdrop,.mentor-portal .student-detail-dialog::backdrop{background:rgba(9,8,12,.72)}
+.mentor-portal .student-detail-grid>div{background:#2b252e}
+.mentor-portal .announcement-list-title{color:#d8aaa0}
+.mentor-portal .announcement-card{border-color:#493c45;background:#2b252e;color:#f2ece8}
+.mentor-portal .announcement-card-heading h3{color:#f4e8e1}
+.mentor-portal .announcement-card-heading small{color:#b0a5a5}
+.mentor-portal .announcement-card>p{color:#d3c9c7}
+.mentor-portal .meeting-group,.mentor-portal .meeting-slot-card,.mentor-portal .meeting-request-card,.mentor-portal .mentor-meeting-card,.mentor-portal .mentor-course-request,.mentor-portal .course-choice,.mentor-portal .meeting-empty{border-color:#493c45;background:#2b252e;color:#f2ece8}
+.mentor-portal .meeting-slot-card:hover{border-color:#795a5c;box-shadow:0 7px 18px rgba(0,0,0,.2)}
+.mentor-portal .meeting-description,.mentor-portal .meeting-confirm-form{color:#d3c9c7}
+.mentor-portal .meeting-book-form,.mentor-portal .meeting-confirm-form,.mentor-portal .mentor-course-request-document{border-color:#493c45}
+.mentor-portal .meeting-request-meta span{background:#342c34}
+.mentor-portal .meeting-count,.mentor-portal .meeting-mode{background:#342c34;color:#e2c0b8}
+.mentor-portal .availability-locked{background:#342c34;color:#c8bec0}
+.mentor-portal .availability-edit-note{background:#393027;color:#e2c5a0}
+
+/* Student portal dark theme: midnight blue with soft teal accents. */
+.student-portal{--ink:#e7eef0;--muted:#a0b2b8;--paper:#111b22;--card:#192630;--line:#30414a;--orange:#66aaa3;--orange-dark:#83c5bb;--mint:#263b42;--navy:#182630;background:#111b22;color:var(--ink)}
+.student-portal main{background:transparent}
+.student-portal main>header .eyebrow,.student-portal .eyebrow,.student-portal .credit-badge b{color:#91c9be}
+.student-portal main>header h1{color:#f0f5f4}
+.student-portal .sidebar{background:#101820;border-right:1px solid #293840;box-shadow:8px 0 28px rgba(0,0,0,.2);color:#e7eef0}
+.student-portal .brand{color:#f0f5f4}
+.student-portal .brand span{color:#91c9be}
+.student-portal .role-label{color:#a9c0c2}
+.student-portal .sidebar nav a{color:#c3d3d5}
+.student-portal .sidebar nav a.active,.student-portal .sidebar nav a:hover{border-color:rgba(145,201,190,.28);background:rgba(102,170,163,.15);color:#fff}
+.student-portal .user-chip,.student-portal .stats article,.student-portal .panel,.student-portal .welcome,.student-portal .student-card,.student-portal .mentor-profile-card,.student-portal .student-announcement-card{border-color:var(--line);background:var(--card);color:var(--ink)}
+.student-portal .user-chip{box-shadow:0 5px 18px rgba(0,0,0,.14)}
+.student-portal .user-chip small,.student-portal .stats small,.student-portal .stats span{color:var(--muted)}
+.student-portal .avatar,.student-portal .badge,.student-portal .status{background:#263b42;color:#a8d8cf}
+.student-portal .stats article,.student-portal .panel,.student-portal .welcome{box-shadow:0 9px 26px rgba(0,0,0,.14)}
+.student-portal .stats article:hover,.student-portal .panel:hover{box-shadow:0 13px 30px rgba(0,0,0,.2)}
+.student-portal .welcome{background:linear-gradient(120deg,#20343a 0%,#1b2b34 100%)}
+.student-portal .welcome h2{color:#e9f3ef}
+.student-portal .welcome p:not(.eyebrow){color:#b3c3c4}
+.student-portal button,.student-portal .button{background:#4f9992;color:#f5fbfa;box-shadow:0 4px 12px rgba(0,0,0,.16)}
+.student-portal button:hover,.student-portal .button:hover{background:#68afa5;box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.student-portal .secondary{background:#263b42;color:#dcebe8;box-shadow:none}
+.student-portal .secondary:hover{background:#334a50;color:#fff}
+.student-portal input,.student-portal select,.student-portal textarea{border-color:#3a5058;background:#141f27;color:#e7eef0}
+.student-portal input::placeholder,.student-portal textarea::placeholder{color:#869a9f}
+.student-portal input:focus,.student-portal select:focus,.student-portal textarea:focus{border-color:#79bdb1;box-shadow:0 0 0 3px rgba(102,170,163,.2)}
+.student-portal .status.pending{background:#443b2c;color:#e7c58d}
+.student-portal .status.approved,.student-portal .status.confirmed,.student-portal .notice.success{border-color:#40574c;background:#273a32;color:#b7d8bd}
+.student-portal .status.rejected{background:#482f36;color:#e4aeb2}
+.student-portal th{color:#a0b2b8}
+.student-portal td{border-bottom-color:#30414a}
+.student-portal tbody tr:hover{background:#202d35}
+.student-portal .notice.warning{border-color:#574438;background:#332b27;color:#e2c5a0}
+.student-portal .mentor-profile-card:hover{border-color:#6a9f99;background:#20333a}
+.student-portal .course-choice,.student-portal #courses .course-choice{border-color:#344850;background:#1c2a32;color:#e7eef0}
+.student-portal .course-choice:hover,.student-portal #courses .course-choice:hover{border-color:#68aaa2;background:#233840;box-shadow:0 6px 16px rgba(0,0,0,.16)}
+.student-portal #courses .course-choice:has(input:checked){border-color:#68aaa2;background:#263d42;box-shadow:0 4px 13px rgba(0,0,0,.16)}
+.student-portal .course-choice b,.student-portal .course-document-link,.student-portal #courses .course-title strong{color:#91c9be}
+.student-portal #courses .course-type,.student-portal #courses .course-credits{background:#2d4147;color:#b8ddd5}
+.student-portal .course-selection-summary{border-color:#344850;background:#192630}
+.student-portal .meeting-panel{border-color:#30464d;background:#192630}
+.student-portal .meeting-group,.student-portal .meeting-slot-card,.student-portal .meeting-request-card,.student-portal .meeting-empty{border-color:#344850;background:#202f37;color:#e7eef0}
+.student-portal .meeting-slot-card{border-left-color:#68aaa2}
+.student-portal .meeting-slot-card:hover{border-color:#79bdb1;border-left-color:#91c9be;box-shadow:0 7px 18px rgba(0,0,0,.2)}
+.student-portal .meeting-request-card{border-left-color:#9c8670}
+.student-portal .meeting-request-approved,.student-portal .meeting-request-confirmed{border-left-color:#6eaa83}
+.student-portal .meeting-request-rejected{border-left-color:#b87982}
+.student-portal .meeting-description,.student-portal .meeting-confirm-form{color:#c4d0d1}
+.student-portal .meeting-book-form,.student-portal .meeting-confirm-form{border-color:#344850}
+.student-portal .meeting-request-meta span,.student-portal .meeting-count,.student-portal .meeting-mode{background:#2d4147;color:#b8ddd5}
+.student-portal .student-detail-dialog{border-color:#344850;background:#192630;color:#e7eef0}
+.student-portal .student-detail-dialog::backdrop{background:rgba(3,8,12,.72)}
+.student-portal .student-detail-grid>div{background:#24353d}
+.student-portal .student-detail-grid small,.student-portal .student-detail-heading p:last-child{color:#a0b2b8}
+.student-portal .student-announcement-card h3{color:#e9f3ef}
+.student-portal .student-announcement-card>p{color:#c4d0d1}
+
+/* Student palette refinement: charcoal, deep olive, and soft champagne. */
+.student-portal{--ink:#eeeadd;--muted:#b6b4a8;--paper:#151916;--card:#202720;--line:#39443a;--orange:#aa9367;--orange-dark:#d0b77f;--mint:#303b30;--navy:#202720;background:#151916;color:var(--ink)}
+.student-portal main>header .eyebrow,.student-portal .eyebrow,.student-portal .credit-badge b,.student-portal .course-choice b,.student-portal .course-document-link{color:#d0b77f}
+.student-portal main>header h1,.student-portal .student-announcement-card h3{color:#f2eee2}
+.student-portal .sidebar{background:#111510;border-color:#30372f;color:#eeeadd}
+.student-portal .brand{color:#f2eee2}
+.student-portal .brand span{color:#d0b77f}
+.student-portal .role-label{color:#bdb9a9}
+.student-portal .sidebar nav a{color:#d2d0c5}
+.student-portal .sidebar nav a.active,.student-portal .sidebar nav a:hover{border-color:rgba(208,183,127,.3);background:rgba(170,147,103,.15);color:#fff}
+.student-portal .user-chip,.student-portal .stats article,.student-portal .panel,.student-portal .welcome,.student-portal .student-card,.student-portal .mentor-profile-card,.student-portal .student-announcement-card{border-color:var(--line);background:var(--card);color:var(--ink)}
+.student-portal .avatar,.student-portal .badge,.student-portal .status,.student-portal .secondary{background:#303b30;color:#dfcfaa}
+.student-portal .welcome{background:linear-gradient(120deg,#30372c 0%,#262d25 100%)}
+.student-portal .welcome h2{color:#f2eee2}
+.student-portal .welcome p:not(.eyebrow){color:#c4c1b4}
+.student-portal button,.student-portal .button{background:#927b50;color:#fffdf6}
+.student-portal button:hover,.student-portal .button:hover{background:#aa9367}
+.student-portal .secondary:hover{background:#414b3a;color:#fffdf6}
+.student-portal input,.student-portal select,.student-portal textarea{border-color:#465044;background:#171d18;color:#eeeadd}
+.student-portal input::placeholder,.student-portal textarea::placeholder{color:#989b8c}
+.student-portal input:focus,.student-portal select:focus,.student-portal textarea:focus{border-color:#aa9367;box-shadow:0 0 0 3px rgba(170,147,103,.2)}
+.student-portal th{color:#b6b4a8}
+.student-portal td{border-bottom-color:#39443a}
+.student-portal tbody tr:hover{background:#272f27}
+.student-portal .mentor-profile-card:hover{border-color:#aa9367;background:#293128}
+.student-portal .course-choice,.student-portal #courses .course-choice{border-color:#414b3e;background:#252d25;color:#eeeadd}
+.student-portal .course-choice:hover,.student-portal #courses .course-choice:hover,.student-portal #courses .course-choice:has(input:checked){border-color:#aa9367;background:#30382b;box-shadow:0 5px 14px rgba(0,0,0,.18)}
+.student-portal #courses .course-type,.student-portal #courses .course-credits,.student-portal .meeting-request-meta span,.student-portal .meeting-count,.student-portal .meeting-mode{background:#343d30;color:#dfcfaa}
+.student-portal .course-selection-summary,.student-portal .meeting-panel{border-color:#39443a;background:#202720}
+.student-portal .meeting-group,.student-portal .meeting-slot-card,.student-portal .meeting-request-card,.student-portal .meeting-empty{border-color:#414b3e;background:#272f28;color:#eeeadd}
+.student-portal .meeting-slot-card{border-left-color:#aa9367}
+.student-portal .meeting-slot-card:hover{border-color:#c1a875;border-left-color:#d0b77f}
+.student-portal .meeting-request-approved,.student-portal .meeting-request-confirmed{border-left-color:#87a17d}
+.student-portal .meeting-description,.student-portal .meeting-confirm-form,.student-portal .student-announcement-card>p{color:#ccc9bc}
+.student-portal .meeting-book-form,.student-portal .meeting-confirm-form{border-color:#414b3e}
+.student-portal .student-detail-dialog{border-color:#414b3e;background:#202720;color:#eeeadd}
+.student-portal .student-detail-grid>div{background:#2a332a}
+.student-portal .student-detail-grid small,.student-portal .student-detail-heading p:last-child{color:#b6b4a8}
+.student-portal .course-request-rejected-note{border-color:#65533b;background:#302c22;color:#dfc99d}
+.student-portal button.mentor-profile-card,.student-portal button.mentor-profile-card:hover{border-color:#39443a;background:#202720;color:#eeeadd}
+.student-portal .academic-detail-group{border-color:#414b3e;background:#252d25;color:#eeeadd}
+.student-portal .academic-detail-group h3{color:#f2eee2}
+.student-portal .academic span strong{color:#b6b4a8}
+.student-portal .profile-edit{border-top-color:#414b3e}
+.student-portal .profile-edit summary{color:#d0b77f}
+.student-portal .profile-edit label{color:#eeeadd}
+
+/* Admin portal dark theme: midnight navy with cool violet accents. */
+.admin-portal{--ink:#e8eaf4;--muted:#a6abc2;--paper:#111522;--card:#1c2030;--line:#34394e;--orange:#8985c5;--orange-dark:#aaa6e0;--mint:#2c3046;--navy:#171a28;background:#111522;color:var(--ink)}
+.admin-portal:not(.landing),.admin-portal main{background:#111522;color:var(--ink)}
+.admin-portal main>header .eyebrow,.admin-portal .eyebrow,.admin-portal .credit-badge b{color:#b7b2ed}
+.admin-portal main>header h1,.admin-portal h1{color:#f1f0fa}
+.admin-portal .sidebar{background:#141725;border-right:1px solid #343448;box-shadow:8px 0 28px rgba(0,0,0,.2);color:#eeeefa}
+.admin-portal .brand{color:#f5f3ff}
+.admin-portal .brand span{color:#b7b2ed}
+.admin-portal .role-label{color:#b7b4d1}
+.admin-portal .sidebar nav a{color:#d0cfe3}
+.admin-portal .sidebar nav a.active,.admin-portal .sidebar nav a:hover{border-color:rgba(183,178,237,.28);background:rgba(137,133,197,.17);color:#fff}
+.admin-portal .user-chip,.admin-portal .stats article,.admin-portal .panel,.admin-portal .welcome,.admin-portal .student-card,.admin-portal .mentor-course-request{border-color:var(--line);background:var(--card);color:var(--ink)}
+.admin-portal .user-chip{box-shadow:0 5px 18px rgba(0,0,0,.14)}
+.admin-portal .user-chip small,.admin-portal .stats small,.admin-portal .stats span{color:var(--muted)}
+.admin-portal .avatar,.admin-portal .badge,.admin-portal .status{background:#2c3046;color:#c6c2f1}
+.admin-portal .stats article,.admin-portal .panel,.admin-portal .welcome{box-shadow:0 9px 26px rgba(0,0,0,.14)}
+.admin-portal .stats article:hover,.admin-portal .panel:hover{box-shadow:0 13px 30px rgba(0,0,0,.2)}
+.admin-portal button,.admin-portal .button{background:#7773b0;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.16)}
+.admin-portal button:hover,.admin-portal .button:hover{background:#918dc9;box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.admin-portal .secondary{background:#2c3046;color:#e3e1f6;box-shadow:none}
+.admin-portal .secondary:hover{background:#3a3d56;color:#fff}
+.admin-portal input,.admin-portal select,.admin-portal textarea{border-color:#444960;background:#151a27;color:#e8eaf4}
+.admin-portal input::placeholder,.admin-portal textarea::placeholder{color:#9298af}
+.admin-portal input:focus,.admin-portal select:focus,.admin-portal textarea:focus{border-color:#9c98d2;box-shadow:0 0 0 3px rgba(137,133,197,.2)}
+.admin-portal .status.approved,.admin-portal .notice.success{border-color:#40574c;background:#273a32;color:#b7d8bd}
+.admin-portal .status.pending{background:#443b2c;color:#e7c58d}
+.admin-portal .status.rejected{background:#482f3b;color:#e4afc4}
+.admin-portal th{color:#a6abc2}
+.admin-portal td{border-bottom-color:#34394e}
+.admin-portal tbody tr:hover{background:#252a3b}
+.admin-portal .request-row{border-color:#34394e}
+.admin-portal .notice.warning{border:1px solid #574438;background:#332b27;color:#e2c5a0}
+.admin-portal .student-card:hover{border-color:#8985c5}
+.admin-portal .course-choice{border-color:#3b4057;background:#22263a;color:#e8eaf4}
+.admin-portal .course-choice:hover{border-color:#8985c5;background:#2b2e45}
+.admin-portal .course-choice b{color:#b7b2ed}
+.admin-portal.landing{background:radial-gradient(ellipse at 80% 8%,#30334d 0%,#1c2032 38%,#111522 78%);color:#eeeefa}
+.admin-portal .portal-card{border-color:rgba(183,178,237,.25);background:rgba(28,32,48,.7);box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.admin-portal .portal-card:hover{border-color:rgba(183,178,237,.5);background:#24283b;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.admin-portal .portal-card span,.admin-portal .portal-card b{color:#b7b2ed}
+.admin-portal .portal-card h2{color:#f1f0fa}
+.admin-portal .portal-card p{color:#bdc0d2}
+
+/* Role-neutral landing page: golden brown and warm ivory. */
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal){background:radial-gradient(ellipse at 78% 8%,#604629 0%,#3b2a1b 38%,#201912 82%);color:#f5eee2}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .hero .eyebrow{color:#d7b878}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .hero h1{color:#fff8ec}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .hero em{color:#d7b878}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .intro{color:#d6c8b3}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card{border-color:rgba(215,184,120,.28);background:rgba(30,23,16,.42);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card:hover{border-color:rgba(215,184,120,.58);background:rgba(70,49,28,.75);box-shadow:0 12px 28px rgba(0,0,0,.24)}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card span,body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card b{color:#d7b878}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card h2{color:#fff5e6}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .portal-card p{color:#d6c8b3}
+body.landing:not(.admin-portal):not(.mentor-portal):not(.student-portal) .notice.warning{border:1px solid #80623c;background:#3b2d1d;color:#efdbb3}
+@media(max-width:900px){.mentor-portal main{background:transparent}}

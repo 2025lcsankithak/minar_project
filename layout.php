@@ -63,6 +63,7 @@ function role_navigation(string $role): array
             ['id' => 'students', 'label' => 'My students'],
             ['id' => 'requests', 'label' => 'Requests'],
             ['id' => 'meetings', 'label' => 'Meetings'],
+            ['id' => 'availability', 'label' => 'Availability'],
             ['id' => 'announcements', 'label' => 'Announcements'],
         ],
         'Student' => [
@@ -105,9 +106,8 @@ function page_end(): void
                 }
 
                 if (!selectedLink || !target) {
-                    const isStudent = body.classList.contains('student-portal');
                     pageSections.forEach((section) => {
-                        section.hidden = isStudent && !section.hasAttribute('data-dashboard');
+                        section.hidden = !section.hasAttribute('data-dashboard');
                     });
                     main.querySelectorAll('.panel[hidden]').forEach((panel) => {
                         if (!pageSections.includes(panel)) panel.hidden = false;

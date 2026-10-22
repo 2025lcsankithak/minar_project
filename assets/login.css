@@ -40,3 +40,41 @@
 .admin-portal .login-shell>.brand span{color:#d391b0}
 .admin-portal .login-card h1{color:#523c64}
 .admin-portal .login-card{border-color:rgba(240,220,239,.36);box-shadow:0 24px 70px rgba(12,4,32,.3)}
+
+/* Login cards follow the dashboard palette for each role. */
+.student-portal .login-shell>.brand{color:#f2eee2}
+.student-portal .login-shell>.brand span{color:#d0b77f}
+.student-portal .login-card{color:#eeeadd;background:#202720;border-color:#39443a;box-shadow:0 24px 70px rgba(0,0,0,.38)}
+.student-portal .login-card h1{color:#f2eee2}
+.student-portal .login-card .eyebrow{color:#d0b77f}
+.student-portal .login-card .intro,.student-portal .login-help{color:#b6b4a8}
+.student-portal .login-card input{border-color:#465044;background:#171d18;color:#eeeadd}
+.student-portal .login-card input::placeholder{color:#989b8c}
+.student-portal .login-card input:focus{border-color:#aa9367;box-shadow:0 0 0 3px rgba(170,147,103,.2)}
+.student-portal .login-card button{background:#927b50;color:#fffdf6}
+.student-portal .login-card button:hover{background:#aa9367}
+.student-portal .login-card .notice.warning{border:1px solid #65533b;background:#302c22;color:#dfc99d}
+.mentor-portal .login-shell>.brand{color:#fff9f4}
+.mentor-portal .login-shell>.brand span{color:#d5a69e}
+.mentor-portal .login-card{color:#f2ece8;background:#211d26;border-color:#3a323b;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+.mentor-portal .login-card h1{color:#f5eeea}
+.mentor-portal .login-card .eyebrow{color:#d2a098}
+.mentor-portal .login-card .intro,.mentor-portal .login-help{color:#b0a5a5}
+.mentor-portal .login-card input{border-color:#493c45;background:#19171d;color:#f2ece8}
+.mentor-portal .login-card input::placeholder{color:#94878c}
+.mentor-portal .login-card input:focus{border-color:#c99a91;box-shadow:0 0 0 3px rgba(201,154,145,.19)}
+.mentor-portal .login-card button{background:#a9746b;color:#fff9f5}
+.mentor-portal .login-card button:hover{background:#bd887d}
+.mentor-portal .login-card .notice.warning{border:1px solid #574438;background:#332b27;color:#e2c5a0}
+.admin-portal .login-shell>.brand{color:#f5f3ff}
+.admin-portal .login-shell>.brand span{color:#b7b2ed}
+.admin-portal .login-card{color:#e8eaf4;background:#1c2030;border-color:#34394e;box-shadow:0 24px 70px rgba(0,0,0,.42)}
+.admin-portal .login-card h1{color:#f1f0fa}
+.admin-portal .login-card .eyebrow{color:#b7b2ed}
+.admin-portal .login-card .intro,.admin-portal .login-help{color:#a6abc2}
+.admin-portal .login-card input{border-color:#444960;background:#151a27;color:#e8eaf4}
+.admin-portal .login-card input::placeholder{color:#9298af}
+.admin-portal .login-card input:focus{border-color:#9c98d2;box-shadow:0 0 0 3px rgba(137,133,197,.2)}
+.admin-portal .login-card button{background:#7773b0;color:#fff}
+.admin-portal .login-card button:hover{background:#918dc9}
+.admin-portal .login-card .notice.warning{border:1px solid #574438;background:#332b27;color:#e2c5a0}

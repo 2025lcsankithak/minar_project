@@ -23,6 +23,13 @@ function e($value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function is_valid_document_url($url): bool
+{
+    $url = trim((string) $url);
+    if ($url === '' || strlen($url) > 255 || !filter_var($url, FILTER_VALIDATE_URL)) return false;
+    return in_array(strtolower((string) parse_url($url, PHP_URL_SCHEME)), ['http', 'https'], true);
+}
+
 function countOf(string $table, string $where = '1=1'): int
 {
     return (int) db()->query("SELECT COUNT(*) FROM $table WHERE $where")->fetchColumn();

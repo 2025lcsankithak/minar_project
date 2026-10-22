@@ -59,11 +59,11 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
     <section class="panel">
         <div class="panel-title"><div><p class="eyebrow">COURSE APPROVALS</p><h2>Student requests</h2></div><span class="badge"><?= count($data['requests']) ?> total</span></div>
         <div class="table-wrap"><table>
-            <thead><tr><th>Student</th><th>Subjects</th><th>Credits</th><th>Document</th><th>Status</th><th>Decision</th></tr></thead>
+            <thead><tr><th>Student</th><th>Semester</th><th>Subjects</th><th>Credits</th><th>Document</th><th>Status</th><th>Decision</th></tr></thead>
             <tbody><?php foreach ($data['requests'] as $request): ?><tr>
                 <td><strong><?= e($request['student_name']) ?></strong><small><?= e($request['section']) ?></small></td>
-                <td><?= e($request['subjects']) ?></td><td><?= $request['total_credits'] ?></td>
-                <td><?php if ($request['receipt_path']): ?><a target="_blank" href="<?= e(BASE_URL . '/' . ltrim($request['receipt_path'], '/')) ?>">View upload</a><?php else: ?>-<?php endif; ?></td>
+                <td><?= e($request['semester']) ?></td><td><?= e($request['subjects']) ?></td><td><?= $request['total_credits'] ?></td>
+                <td><?php if (is_valid_document_url($request['receipt_path'] ?? '')): ?><a target="_blank" rel="noopener noreferrer" href="<?= e($request['receipt_path']) ?>">Open document</a><?php else: ?><span class="muted">Missing valid document link</span><?php endif; ?></td>
                 <td><span class="status <?= e($request['status']) ?>"><?= e($request['status']) ?></span></td>
                 <td><form method="post" class="inline"><input type="hidden" name="action" value="request"><input type="hidden" name="id" value="<?= $request['id'] ?>"><button name="status" value="approved">Approve</button><button name="status" value="rejected">Reject</button><button name="status" value="pending">Pending</button></form></td>
             </tr><?php endforeach; ?></tbody>
@@ -251,7 +251,13 @@ function update_request(): string
 {
     $status = $_POST['status'] ?? '';
     if (!in_array($status, ['approved', 'rejected', 'pending'], true)) throw new Exception('Invalid status.');
-    db()->prepare('UPDATE course_requests SET status=? WHERE id=?')->execute([$status, (int) $_POST['id']]);
+    $requestId = (int) ($_POST['id'] ?? 0);
+    if ($status === 'approved') {
+        $documentQuery = db()->prepare('SELECT receipt_path FROM course_requests WHERE id = ?');
+        $documentQuery->execute([$requestId]);
+        if (!is_valid_document_url($documentQuery->fetchColumn() ?: '')) throw new Exception('This request cannot be approved without a valid document link.');
+    }
+    db()->prepare('UPDATE course_requests SET status=? WHERE id=?')->execute([$status, $requestId]);
     return 'Request updated.';
 }
 function upload_courses(): string { if(empty($_FILES['course_file']['tmp_name'])||$_FILES['course_file']['error']!==UPLOAD_ERR_OK) throw new Exception('Choose a CSV file.'); $file=fopen($_FILES['course_file']['tmp_name'],'r'); $query=db()->prepare('INSERT INTO courses(code,name,credits,semester,type) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE name=VALUES(name),credits=VALUES(credits),semester=VALUES(semester),type=VALUES(type)'); $count=0; while(($row=fgetcsv($file))!==false){if(count($row)<5||strtolower(trim($row[0]))==='code')continue;$query->execute([trim($row[0]),trim($row[1]),(int)$row[2],valid_semester((int)$row[3]),trim($row[4])==='Open Elective'?'Open Elective':'Core']);$count++;}fclose($file);if(!$count)throw new Exception('No valid course rows found.');return "$count course(s) uploaded."; }

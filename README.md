@@ -1,73 +1,66 @@
 # Minar Mentorship Portal
 
-This is a small PHP and MySQL portal for managing student mentorship, course selection, and meetings.
+A role-based PHP and MySQL web application for coordinating student course selections and mentoring. It provides separate dashboards for administrators, mentors, and students, with a shared login/session system.
 
-## Run the project
+## Features
 
-1. Start Apache and MySQL in XAMPP.
-2. Import `database/mentorship_portal.sql` into phpMyAdmin or MySQL.
-3. Confirm the database settings in `config.php`. The default setup uses MySQL user `root` with no password.
-4. Open `http://localhost/minar_project/` in the browser.
+- **Admin:** manage student and mentor accounts, edit profiles, assign mentors by section and semester, manage courses, review course requests, and import courses from CSV.
+- **Mentor:** view assigned students and their academic information, review course selections and supporting document links, publish announcements, and manage meeting availability and requests.
+- **Student:** update profile details and password, view academic information and mentor details, select semester courses and submit a supporting document link, read mentor announcements, and request/confirm meetings.
+- **Meeting workflow:** students request an available time; mentors approve or decline; students confirm an approved meeting.
+- Responsive shared styling for the sign-in pages and dashboards.
 
-The SQL file creates sample users, courses, requests, assignments, and a meeting. The sample account usernames are in that SQL file.
+## Requirements
 
-## How the portal works
+- XAMPP (or another local Apache, PHP, and MySQL/MariaDB setup)
+- PHP 8.0 or later with PDO MySQL enabled
+- MySQL or MariaDB
 
-1. `index.php` is the home page. It shows Admin, Mentor, and Student sign-in links.
-2. Each role link opens its own folder's `index.php` sign-in page.
-3. The sign-in form posts to `login.php`.
-4. `login.php` verifies the account and stores the logged-in user in the PHP session.
-5. The dashboard checks that session before showing private information.
-6. `logout.php` clears the session and returns to the Admin sign-in page.
+## Setup with XAMPP
 
-## Main files
+1. Place this project in the XAMPP web root, for example `C:\xampp\htdocs\minar_project`.
+2. Start **Apache** and **MySQL** from the XAMPP Control Panel.
+3. Import [`database/mentorship_portal.sql`](database/mentorship_portal.sql) using phpMyAdmin or the MySQL command line. The dump creates and populates the `mentorship_portal` database.
+4. Check the database constants and `BASE_URL` in [`config.php`](config.php). The defaults are database `mentorship_portal`, host `localhost`, user `root`, an empty password, and base URL `/minar_project`.
+5. Visit `http://localhost/minar_project/` and choose a role to sign in.
 
-| File | What it does |
-| --- | --- |
-| `index.php` | Public landing page and links to the three portals. |
-| `config.php` | Database connection settings, base URL, HTML escaping helper, and count helper. |
-| `auth.php` | Starts the session, checks the user role, and performs login verification. |
-| `login.php` | Receives sign-in form data and redirects the user after login. |
-| `logout.php` | Deletes session data and redirects to `admin/index.php`. |
-| `login-page.php` | Shared sign-in page template used by every role. |
-| `layout.php` | Shared dashboard sidebar, header, profile display, and logout link. |
-| `admin.php` | Admin dashboard and focused People, Courses, Requests, and Assignments screens. |
-| `mentor.php` | Mentor dashboard, assigned students, request list, and meeting scheduler. |
-| `student.php` | Student dashboard, course-request form, mentor details, and meetings. |
+> **Database import warning:** the SQL dump drops and recreates the application's tables before inserting its snapshot data. Do not import it over data you need to keep.
 
-## Sign-in page files
+The SQL dump contains seeded sample accounts with hashed passwords. It does not document their plaintext passwords; use credentials configured for your own environment or create/reset accounts through the application/database as appropriate.
 
-| File | What it does |
-| --- | --- |
-| `admin/index.php` | Sets the Admin sign-in text, then loads `login-page.php`. |
-| `mentor/index.php` | Sets the Mentor sign-in text, then loads `login-page.php`. |
-| `student/index.php` | Sets the Student sign-in text, then loads `login-page.php`. |
+## Application flow
 
-## Assets and database
+The home page links to role-specific sign-in pages under `admin/`, `mentor/`, and `student/`. Each page uses the shared `login-page.php` template. Successful sign-in is handled by `login.php`, which stores the user and role in a PHP session. Dashboard pages enforce their required role, and `logout.php` ends the session.
 
-| File | What it does |
-| --- | --- |
-| `assets/style.css` | Shared colours, sidebar, forms, cards, tables, buttons, and responsive layout. |
-| `assets/login.css` | Extra styling only for the sign-in screen. |
-| `database/mentorship_portal.sql` | Creates all database tables and inserts demo data. |
+Students can submit one course request per semester, including a valid shareable `http` or `https` document URL. Their assigned mentor can review the request; administrators can also manage its status. Mentors can post open meeting times for assigned students. A meeting request holds that slot while pending or approved; approved requests become confirmed after the student confirms them.
 
-## Admin navigation
+## Course CSV import
 
-The Admin dashboard is intentionally small. Use the sidebar to open one area at a time:
+On the Admin **Courses** screen, upload a CSV with these columns:
 
-- **People**: view and edit users.
-- **Courses**: add, edit, or upload course data using a CSV file.
-- **Requests**: approve, reject, or return a course request to pending.
-- **Assignments**: assign mentors to students who are still pending.
-
-## Course CSV format
-
-The Courses page accepts a CSV file with these columns:
-
-```text
+```csv
 code,name,credits,semester,type
-CS101,Introduction to Programming,3,1,Core
-OE201,Design Thinking,2,2,Open Elective
+CS501,Advanced Algorithms,3,5,Core
+OE501,Introduction to AI,3,5,Open Elective
 ```
 
-Semester values must be from **1 through 8**.
+The header row is optional. Semester must be between 1 and 8. Course type is `Core` or `Open Elective`. A course with an existing code is updated by the import.
+
+## Project structure
+
+| Path | Purpose |
+| --- | --- |
+| `index.php` | Public landing page |
+| `admin/`, `mentor/`, `student/` | Role-specific sign-in entry points |
+| `admin.php` | Admin dashboard and account, assignment, course, and request actions |
+| `mentor.php` | Mentor dashboard, course review, announcements, and meeting scheduling |
+| `student.php` | Student dashboard, course selection, profile, and meetings |
+| `auth.php`, `login.php`, `logout.php` | Authentication and session handling |
+| `config.php` | Database connection, base URL, and shared helpers |
+| `layout.php`, `login-page.php` | Shared dashboard and sign-in templates |
+| `assets/style.css`, `assets/login.css` | Application and sign-in styles |
+| `database/mentorship_portal.sql` | Database schema and seeded sample data |
+
+## Configuration and deployment
+
+`config.php` currently contains local development database settings. Change these values for your environment, protect database credentials, and use HTTPS and appropriate PHP/database security settings before exposing the application beyond a trusted local development setup.
