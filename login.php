@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !in_array($role, $allowedRoles, tru
     exit;
 }
 
+verify_csrf_token();
+
 $error = login_user($role, trim($_POST['username'] ?? ''), $_POST['password'] ?? '');
 if ($error) {
     $_SESSION['login_error'] = $error;

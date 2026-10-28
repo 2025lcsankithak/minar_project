@@ -28,12 +28,13 @@ unset($_SESSION['login_error']);
             <p class="intro"><?= e($description) ?></p>
             <?php if ($error): ?><div class="notice warning"><?= e($error) ?></div><?php endif; ?>
             <form method="post" action="<?= BASE_URL ?>/login.php" class="stack">
+                <?= csrf_field() ?>
                 <input type="hidden" name="role" value="<?= e($portalRole) ?>">
                 <label>Username<input required name="username" placeholder="Enter your username"></label>
                 <label>Password<input required type="password" name="password" placeholder="Enter your password"></label>
                 <button>Sign in as <?= e(ucfirst($portalRole)) ?></button>
             </form>
-            <p class="login-help">Use the credentials listed in the SQL file.</p>
+            <p class="login-help">Use an account created by your portal administrator. For the bundled database, see the password reset instructions in the README.</p>
         </div>
     </section>
 </body>

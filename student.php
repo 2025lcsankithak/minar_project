@@ -18,7 +18,7 @@ try {
     $announcements = get_student_announcements();
 } catch (Throwable $exception) {
     page_start('Student dashboard', 'Student');
-    echo '<div class="notice warning">Import the SQL file first: ' . e($exception->getMessage()) . '</div>';
+    echo '<div class="notice warning">' . e(user_error_message($exception)) . '</div>';
     page_end();
     exit;
 }
@@ -43,10 +43,10 @@ page_start('Student dashboard', 'Student');
 <div class="split">
     <div class="panel"><p class="eyebrow">SEMESTER <?= e($student['semester']) ?></p>
         <?php if ($semesterRequest): ?><h2>Your course selection</h2><article class="course-selection-summary"><div class="announcement-card-heading"><strong>Submitted <?= date('d M Y', strtotime($semesterRequest['created_at'])) ?></strong><span class="status <?= e($semesterRequest['status']) ?>"><?= e($semesterRequest['status']) ?></span></div><div class="table-wrap"><table><thead><tr><th>Code</th><th>Name</th><th>Sem</th><th>Credits</th></tr></thead><tbody><?php foreach ($selectedCourses as $course): ?><tr><td><?= e($course['code']) ?></td><td><?= e($course['name']) ?></td><td><?= e($course['semester']) ?></td><td><?= e($course['credits']) ?></td></tr><?php endforeach; ?></tbody></table></div><?php if (is_valid_document_url($semesterRequest['receipt_path'] ?? '')): ?><a class="course-document-link" href="<?= e($semesterRequest['receipt_path']) ?>" target="_blank" rel="noopener noreferrer">View submitted document</a><?php endif; ?></article>
-        <?php if (in_array($semesterRequest['status'], ['pending', 'rejected'], true)): ?><?php if ($semesterRequest['status'] === 'rejected'): ?><p class="course-request-rejected-note">This request was denied. Update the selection or document link below, then re-request approval.</p><?php endif; ?><details class="course-request-edit"><summary><?= $semesterRequest['status'] === 'rejected' ? 'Re-request course selection' : 'Edit course selection or document link' ?></summary><form method="post" class="course-request-edit-form"><input type="hidden" name="action" value="edit_request"><input type="hidden" name="request_id" value="<?= (int) $semesterRequest['id'] ?>"><div class="course-list"><?php foreach ($courses as $course): ?><label class="course-choice"><input type="checkbox" name="courses[]" value="<?= (int) $course['id'] ?>" <?= in_array((int) $course['id'], array_map('intval', array_column($selectedCourses, 'id')), true) ? 'checked' : '' ?>><span class="course-copy"><span class="course-title"><strong><?= e($course['code']) ?></strong><span><?= e($course['name']) ?></span></span><small class="course-type"><?= e($course['type']) ?></small></span><b class="course-credits"><?= e($course['credits']) ?><small>credits</small></b></label><?php endforeach; ?></div><label class="course-document-field">Required supporting document link<input required type="url" name="document_url" maxlength="255" value="<?= e(is_valid_document_url($semesterRequest['receipt_path'] ?? '') ? $semesterRequest['receipt_path'] : '') ?>" placeholder="https://drive.google.com/..." autocomplete="url"><small>A valid shareable link is required to keep this request under review.</small></label><button type="submit"><?= $semesterRequest['status'] === 'rejected' ? 'Re-request approval' : 'Save changes' ?></button></form></details>
+        <?php if (in_array($semesterRequest['status'], ['pending', 'rejected'], true)): ?><?php if ($semesterRequest['status'] === 'rejected'): ?><p class="course-request-rejected-note">This request was denied. Update the selection or document link below, then re-request approval.</p><?php endif; ?><details class="course-request-edit"><summary><?= $semesterRequest['status'] === 'rejected' ? 'Re-request course selection' : 'Edit course selection or document link' ?></summary><form method="post" class="course-request-edit-form"><?= csrf_field() ?><input type="hidden" name="action" value="edit_request"><input type="hidden" name="request_id" value="<?= (int) $semesterRequest['id'] ?>"><div class="course-list"><?php foreach ($courses as $course): ?><label class="course-choice"><input type="checkbox" name="courses[]" value="<?= (int) $course['id'] ?>" <?= in_array((int) $course['id'], array_map('intval', array_column($selectedCourses, 'id')), true) ? 'checked' : '' ?>><span class="course-copy"><span class="course-title"><strong><?= e($course['code']) ?></strong><span><?= e($course['name']) ?></span></span><small class="course-type"><?= e($course['type']) ?></small></span><b class="course-credits"><?= e($course['credits']) ?><small>credits</small></b></label><?php endforeach; ?></div><label class="course-document-field">Required supporting document link<input required type="url" name="document_url" maxlength="255" value="<?= e(is_valid_document_url($semesterRequest['receipt_path'] ?? '') ? $semesterRequest['receipt_path'] : '') ?>" placeholder="https://drive.google.com/..." autocomplete="url"><small>A valid shareable link is required to keep this request under review.</small></label><button type="submit"><?= $semesterRequest['status'] === 'rejected' ? 'Re-request approval' : 'Save changes' ?></button></form></details>
         <?php else: ?><p class="course-request-locked">This course selection is approved and cannot be edited.</p><?php endif; ?>
         <?php elseif ($courses): ?><h2>Select your subjects</h2><p class="muted">Select core and open elective subjects. Your total credits will be checked by your mentor/admin.</p>
-        <form method="post"><input type="hidden" name="action" value="request"><div class="course-list">
+        <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="request"><div class="course-list">
             <?php foreach ($courses as $course): ?>
                 <label class="course-choice"><input type="checkbox" name="courses[]" value="<?= $course['id'] ?>"><span class="course-copy"><span class="course-title"><strong><?= e($course['code']) ?></strong><span><?= e($course['name']) ?></span></span><small class="course-type"><?= e($course['type']) ?></small></span><b class="course-credits"><?= e($course['credits']) ?><small>credits</small></b></label>
             <?php endforeach; ?>
@@ -72,7 +72,7 @@ page_start('Student dashboard', 'Student');
                 <?php foreach ($availability as $slot): ?><article class="meeting-slot-card">
                     <div class="meeting-slot-top"><div><span class="meeting-date"><?= date('D, d M Y', strtotime($slot['starts_at'])) ?></span><strong><?= date('h:i A', strtotime($slot['starts_at'])) ?> &ndash; <?= date('h:i A', strtotime($slot['ends_at'])) ?></strong></div><span class="meeting-mode"><?= e($slot['mode']) ?></span></div>
                     <?php if ($slot['description']): ?><p class="meeting-description"><?= e($slot['description']) ?></p><?php endif; ?>
-                    <form method="post" class="meeting-book-form"><input type="hidden" name="action" value="book_meeting"><input type="hidden" name="availability_id" value="<?= (int) $slot['id'] ?>"><label>Your note <input name="notes" maxlength="500" placeholder="What would you like to discuss?"></label><button type="submit">Request this time</button></form>
+                    <form method="post" class="meeting-book-form"><?= csrf_field() ?><input type="hidden" name="action" value="book_meeting"><input type="hidden" name="availability_id" value="<?= (int) $slot['id'] ?>"><label>Your note <input name="notes" maxlength="500" placeholder="What would you like to discuss?"></label><button type="submit">Request this time</button></form>
                 </article><?php endforeach; ?>
             </div><?php endif; ?>
         </section>
@@ -84,7 +84,7 @@ page_start('Student dashboard', 'Student');
                     <div class="meeting-request-top"><div><span class="meeting-date"><?= date('D, d M Y', strtotime($meeting['meeting_at'])) ?></span><strong><?= date('h:i A', strtotime($meeting['meeting_at'])) ?></strong></div><span class="status <?= e($meeting['status']) ?>"><?= e($meeting['status']) ?></span></div>
                     <div class="meeting-request-meta"><span><?= e($meeting['mode']) ?></span><span>Mentor: <?= e($meeting['mentor_name']) ?></span></div>
                     <?php if ($meeting['notes']): ?><p class="meeting-description"><strong>Your note:</strong> <?= e($meeting['notes']) ?></p><?php endif; ?>
-                    <?php if ($meeting['status'] === 'pending'): ?><p class="meeting-status-note">Waiting for your mentor to review this request.</p><?php elseif ($meeting['status'] === 'approved'): ?><form method="post" class="meeting-confirm-form"><input type="hidden" name="action" value="confirm_meeting"><input type="hidden" name="meeting_id" value="<?= (int) $meeting['id'] ?>"><span>Your mentor approved this time.</span><button type="submit">Confirm meeting</button></form><?php elseif ($meeting['status'] === 'rejected'): ?><p class="meeting-status-note">This request was declined. You can choose another open time.</p><?php endif; ?>
+                    <?php if ($meeting['status'] === 'pending'): ?><p class="meeting-status-note">Waiting for your mentor to review this request.</p><?php elseif ($meeting['status'] === 'approved'): ?><form method="post" class="meeting-confirm-form"><?= csrf_field() ?><input type="hidden" name="action" value="confirm_meeting"><input type="hidden" name="meeting_id" value="<?= (int) $meeting['id'] ?>"><span>Your mentor approved this time.</span><button type="submit">Confirm meeting</button></form><?php elseif ($meeting['status'] === 'rejected'): ?><p class="meeting-status-note">This request was declined. You can choose another open time.</p><?php endif; ?>
                 </article><?php endforeach; ?>
             </div><?php endif; ?>
         </section>
@@ -113,7 +113,7 @@ page_start('Student dashboard', 'Student');
                 <span><strong>Date of birth</strong><b><?= !empty($student['dob']) ? e(date('d M Y', strtotime($student['dob']))) : 'Not provided' ?></b></span>
             </div>
             <details class="profile-edit"><summary>Edit profile</summary>
-                <form method="post" class="stack">
+                <form method="post" class="stack"><?= csrf_field() ?>
                     <input type="hidden" name="action" value="update_profile">
                     <label>Full name<input required maxlength="100" name="name" value="<?= e($student['name']) ?>" autocomplete="name"></label>
                     <label>Email<input required type="email" maxlength="120" name="email" value="<?= e($student['email']) ?>" autocomplete="email"></label>
@@ -122,7 +122,7 @@ page_start('Student dashboard', 'Student');
                 </form>
             </details>
             <details class="profile-edit"><summary>Change password</summary>
-                <form method="post" class="stack">
+                <form method="post" class="stack"><?= csrf_field() ?>
                     <input type="hidden" name="action" value="change_password">
                     <label>Current password<input required type="password" name="current_password" autocomplete="current-password"></label>
                     <label>New password<input required type="password" name="new_password" minlength="8" autocomplete="new-password"></label>
@@ -148,6 +148,7 @@ document.querySelector('.mentor-dialog-meetings')?.addEventListener('click', () 
 function handle_student_action(): string
 {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') return '';
+    verify_csrf_token();
 
     return match ($_POST['action'] ?? '') {
         'request' => submit_course_request(),
@@ -289,7 +290,7 @@ function change_student_password(): string
 
 function current_student_id(): int { return (int) ($_SESSION['user_id'] ?? 0); }
 function get_student_profile(): array { $query = db()->prepare('SELECT u.id, u.name, u.username, u.email, u.department, u.section, u.semester, u.dob, s.attendance, s.cgpa, s.completed_credits, m.id AS mentor_id, m.name AS mentor_name, m.username AS mentor_username, m.email AS mentor_email, m.department AS mentor_department, m.section AS mentor_section, m.semester AS mentor_semester FROM users u LEFT JOIN students s ON s.user_id = u.id LEFT JOIN mentor_assignments a ON a.student_id = u.id LEFT JOIN users m ON m.id = a.mentor_id WHERE u.id = ? AND u.role = \'student\''); $query->execute([current_student_id()]); return $query->fetch() ?: []; }
-function get_semester_courses(int $semester): array { return db()->query('SELECT * FROM courses WHERE semester = ' . $semester . ' ORDER BY type, code')->fetchAll(); }
+function get_semester_courses(int $semester): array { $query=db()->prepare('SELECT * FROM courses WHERE semester = ? ORDER BY type, code'); $query->execute([$semester]); return $query->fetchAll(); }
 function get_student_requests(): array { $query = db()->prepare("SELECT r.*, GROUP_CONCAT(CONCAT(c.code, ' · ', c.name) SEPARATOR ' | ') AS subjects FROM course_requests r LEFT JOIN request_courses rc ON rc.request_id = r.id LEFT JOIN courses c ON c.id = rc.course_id WHERE r.student_id = ? GROUP BY r.id ORDER BY r.semester DESC, r.created_at DESC"); $query->execute([current_student_id()]); return $query->fetchAll(); }
 function get_request_courses(int $requestId): array { $query = db()->prepare('SELECT c.id, c.code, c.name, c.semester, c.credits FROM request_courses rc JOIN courses c ON c.id = rc.course_id WHERE rc.request_id = ? ORDER BY c.type, c.code'); $query->execute([$requestId]); return $query->fetchAll(); }
 function get_student_meetings(): array { $query = db()->prepare('SELECT mt.*, m.name AS mentor_name FROM meetings mt JOIN users m ON m.id = mt.mentor_id WHERE mt.student_id = ? ORDER BY mt.meeting_at DESC'); $query->execute([current_student_id()]); return $query->fetchAll(); }

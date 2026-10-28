@@ -8,7 +8,8 @@ $error = '';
 try {
     $ready = (bool) db()->query('SELECT 1 FROM users LIMIT 1')->fetchColumn();
 } catch (Throwable $exception) {
-    $error = $exception->getMessage();
+    error_log('Portal database check failed: ' . $exception->getMessage());
+    $error = 'The database is unavailable. Check the application configuration and try again.';
 }
 ?>
 <!doctype html>

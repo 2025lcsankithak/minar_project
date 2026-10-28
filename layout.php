@@ -20,7 +20,7 @@ function page_start(string $title, string $role, string $active = 'dashboard'): 
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css?v=<?= filemtime(__DIR__ . '/assets/style.css') ?>">
 </head>
 <body class="<?= strtolower(e($role)) ?>-portal">
-    <style>.sidebar-footer{display:none}.logout-link{margin-left:8px;color:#bd4e2c;font-size:12px;font-weight:800;text-decoration:none}.logout-link:hover{text-decoration:underline}</style>
+    <style>.sidebar-footer{display:none}.logout-form{margin-left:8px}.logout-link{padding:0;border:0;background:none;box-shadow:none;color:#bd4e2c;font-size:12px;font-weight:800;text-decoration:none}.logout-link:hover{background:none;box-shadow:none;text-decoration:underline}</style>
     <aside class="sidebar">
         <a class="brand" href="<?= BASE_URL ?>/index.php"><span>✦</span> Minar</a>
         <p class="role-label"><?= e($role) ?> portal</p>
@@ -44,7 +44,7 @@ function page_start(string $title, string $role, string $active = 'dashboard'): 
             <div class="user-chip" id="profile">
                 <span class="avatar"><?= $profile[0] ?></span>
                 <div><strong><?= e($_SESSION['name'] ?? $profile[1]) ?></strong><small><?= e($role) ?></small></div>
-                <a class="logout-link" href="<?= BASE_URL ?>/logout.php">Log out</a>
+                <form method="post" action="<?= BASE_URL ?>/logout.php" class="logout-form"><?= csrf_field() ?><button class="logout-link" type="submit">Log out</button></form>
             </div>
         </header>
 <?php

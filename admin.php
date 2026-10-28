@@ -12,7 +12,7 @@ try {
     $data = get_admin_data();
 } catch (Throwable $exception) {
     page_start('Admin dashboard', 'Admin');
-    echo '<div class="notice warning">' . e($exception->getMessage()) . '</div>';
+    echo '<div class="notice warning">' . e(user_error_message($exception)) . '</div>';
     page_end();
     exit;
 }
@@ -65,7 +65,7 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
                 <td><?= e($request['semester']) ?></td><td><?= e($request['subjects']) ?></td><td><?= $request['total_credits'] ?></td>
                 <td><?php if (is_valid_document_url($request['receipt_path'] ?? '')): ?><a target="_blank" rel="noopener noreferrer" href="<?= e($request['receipt_path']) ?>">Open document</a><?php else: ?><span class="muted">Missing valid document link</span><?php endif; ?></td>
                 <td><span class="status <?= e($request['status']) ?>"><?= e($request['status']) ?></span></td>
-                <td><form method="post" class="inline"><input type="hidden" name="action" value="request"><input type="hidden" name="id" value="<?= $request['id'] ?>"><button name="status" value="approved">Approve</button><button name="status" value="rejected">Reject</button><button name="status" value="pending">Pending</button></form></td>
+                <td><form method="post" class="inline"><?= csrf_field() ?><input type="hidden" name="action" value="request"><input type="hidden" name="id" value="<?= $request['id'] ?>"><button name="status" value="approved">Approve</button><button name="status" value="rejected">Reject</button><button name="status" value="pending">Pending</button></form></td>
             </tr><?php endforeach; ?></tbody>
         </table></div>
     </section>
@@ -76,7 +76,7 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
         <div class="panel"><p class="eyebrow">PENDING ALLOCATION</p><h2>Assign mentors</h2>
             <?php foreach ($data['unassigned'] as $student): ?>
                 <?php $matchingMentors = array_filter($data['mentors'], fn($mentor) => mentor_matches_student($mentor, $student)); ?>
-                <form method="post" class="inline" style="margin-bottom:10px"><input type="hidden" name="action" value="assign"><input type="hidden" name="student_id" value="<?= $student['id'] ?>"><span class="assignment-student"><strong><?= e($student['name']) ?></strong><small>( <?= e($student['semester']) ?>th Sem <?= e($student['section']) ?> )</small></span>
+                <form method="post" class="inline" style="margin-bottom:10px"><?= csrf_field() ?><input type="hidden" name="action" value="assign"><input type="hidden" name="student_id" value="<?= $student['id'] ?>"><span class="assignment-student"><strong><?= e($student['name']) ?></strong><small>( <?= e($student['semester']) ?>th Sem <?= e($student['section']) ?> )</small></span>
                     <?php if ($matchingMentors): ?><select required name="mentor_id"><?php foreach ($matchingMentors as $mentor): ?><option value="<?= $mentor['id'] ?>"><?= e($mentor['name']) ?> - <?= e($mentor['section']) ?> - Sem <?= e($mentor['semester']) ?></option><?php endforeach; ?></select><button>Assign</button>
                     <?php else: ?><span class="muted">No mentor matches this section and semester. Set a mentor's section and semester in People.</span><?php endif; ?></form>
             <?php endforeach; ?>
@@ -90,21 +90,21 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
 
 <?php if ($view === 'courses'): ?>
     <section class="panel"><p class="eyebrow">CATALOG</p><h2>Add or upload courses</h2>
-        <form method="post" class="form-grid"><input type="hidden" name="action" value="course"><label>Code<input required name="code"></label><label>Course title<input required name="name"></label><label>Credits<input required min="1" max="10" type="number" name="credits" value="3"></label><label>Semester<select name="semester"><?php semester_options(5); ?></select></label><label>Type<select name="type"><option>Core</option><option>Open Elective</option></select></label><button>Add course</button></form>
-        <form method="post" enctype="multipart/form-data" class="stack" style="margin-top:18px"><input type="hidden" name="action" value="course_upload"><label>Upload CSV (code, name, credits, semester, type)<input required type="file" name="course_file" accept=".csv"></label><button>Upload courses</button></form>
+        <form method="post" class="form-grid"><?= csrf_field() ?><input type="hidden" name="action" value="course"><label>Code<input required name="code"></label><label>Course title<input required name="name"></label><label>Credits<input required min="1" max="10" type="number" name="credits" value="3"></label><label>Semester<select name="semester"><?php semester_options(5); ?></select></label><label>Type<select name="type"><option>Core</option><option>Open Elective</option></select></label><button>Add course</button></form>
+        <form method="post" enctype="multipart/form-data" class="stack" style="margin-top:18px"><?= csrf_field() ?><input type="hidden" name="action" value="course_upload"><label>Upload CSV (code, name, credits, semester, type)<input required type="file" name="course_file" accept=".csv"></label><button>Upload courses</button></form>
     </section>
     <section class="panel"><h2>Course list</h2><div class="table-wrap"><table>
         <thead><tr><th>Code</th><th>Course</th><th>Credits</th><th>Semester</th><th>Type</th><th>Edit</th></tr></thead>
         <tbody><?php foreach ($data['courses'] as $course): ?><tr>
             <td><?= e($course['code']) ?></td><td><?= e($course['name']) ?></td><td><?= $course['credits'] ?></td><td><?= $course['semester'] ?></td><td><?= e($course['type']) ?></td>
-            <td><details><summary>Edit</summary><form method="post" class="stack"><input type="hidden" name="action" value="update_course"><input type="hidden" name="id" value="<?= $course['id'] ?>"><input name="code" value="<?= e($course['code']) ?>"><input name="name" value="<?= e($course['name']) ?>"><input min="1" max="10" type="number" name="credits" value="<?= $course['credits'] ?>"><select name="semester"><?php semester_options((int) $course['semester']); ?></select><select name="type"><option <?= $course['type'] === 'Core' ? 'selected' : '' ?>>Core</option><option <?= $course['type'] === 'Open Elective' ? 'selected' : '' ?>>Open Elective</option></select><button>Save</button></form></details></td>
+            <td><details><summary>Edit</summary><form method="post" class="stack"><?= csrf_field() ?><input type="hidden" name="action" value="update_course"><input type="hidden" name="id" value="<?= $course['id'] ?>"><input name="code" value="<?= e($course['code']) ?>"><input name="name" value="<?= e($course['name']) ?>"><input min="1" max="10" type="number" name="credits" value="<?= $course['credits'] ?>"><select name="semester"><?php semester_options((int) $course['semester']); ?></select><select name="type"><option <?= $course['type'] === 'Core' ? 'selected' : '' ?>>Core</option><option <?= $course['type'] === 'Open Elective' ? 'selected' : '' ?>>Open Elective</option></select><button>Save</button></form></details></td>
         </tr><?php endforeach; ?></tbody>
     </table></div></section>
 <?php endif; ?>
 
 <?php if ($view === 'people'): ?>
     <section class="panel"><p class="eyebrow">NEW ACCOUNT</p><h2>Create a student or mentor account</h2>
-        <form method="post" class="form-grid"><input type="hidden" name="action" value="create_user">
+        <form method="post" class="form-grid"><?= csrf_field() ?><input type="hidden" name="action" value="create_user">
             <label>Role<select name="role" required><option value="student">Student</option><option value="mentor">Mentor</option></select></label>
             <label>Full name<input required name="name" autocomplete="name"></label>
             <label>Login username<input required name="username" autocomplete="username"></label>
@@ -120,8 +120,8 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
         <thead><tr><th>Name</th><th>Role</th><th>Username</th><th>Email</th><th>Section / Department</th><th>Mentor</th><th>Actions</th></tr></thead>
         <tbody><?php foreach ($data['users'] as $user): ?><tr>
             <td><strong><?= e($user['name']) ?></strong></td><td><?= e($user['role']) ?></td><td><?= e($user['username']) ?></td><td><?= e($user['email']) ?></td><td><?= e($user['section'] ?: $user['department']) ?></td><td><?= e($user['role'] === 'student' ? ($user['mentor_name'] ?: 'Pending') : '-') ?></td>
-            <td><details><summary>Edit</summary><form method="post" class="stack"><input type="hidden" name="action" value="update_user"><input type="hidden" name="id" value="<?= $user['id'] ?>"><input required name="name" value="<?= e($user['name']) ?>"><input required type="email" name="email" value="<?= e($user['email']) ?>"><input name="department" value="<?= e($user['department']) ?>" placeholder="Department"><input name="section" value="<?= e($user['section']) ?>" placeholder="Section"><select name="semester"><option value="">No semester</option><?php semester_options((int) $user['semester']); ?></select><button>Save</button></form></details>
-                <?php if ($user['role'] !== 'admin'): ?><form method="post" onsubmit="return confirm('Delete this user and their related records?')" style="margin-top:8px"><input type="hidden" name="action" value="delete_user"><input type="hidden" name="id" value="<?= $user['id'] ?>"><button class="secondary" type="submit">Delete user</button></form><?php endif; ?></td>
+            <td><details><summary>Edit</summary><form method="post" class="stack"><?= csrf_field() ?><input type="hidden" name="action" value="update_user"><input type="hidden" name="id" value="<?= $user['id'] ?>"><input required name="name" value="<?= e($user['name']) ?>"><input required type="email" name="email" value="<?= e($user['email']) ?>"><input name="department" value="<?= e($user['department']) ?>" placeholder="Department"><input name="section" value="<?= e($user['section']) ?>" placeholder="Section"><select name="semester"><option value="">No semester</option><?php semester_options((int) $user['semester']); ?></select><button>Save</button></form></details>
+                <?php if ($user['role'] !== 'admin'): ?><form method="post" onsubmit="return confirm('Delete this user and their related records?')" style="margin-top:8px"><?= csrf_field() ?><input type="hidden" name="action" value="delete_user"><input type="hidden" name="id" value="<?= $user['id'] ?>"><button class="secondary" type="submit">Delete user</button></form><?php endif; ?></td>
         </tr><?php endforeach; ?></tbody>
     </table></div></section>
 <?php endif; ?>
@@ -148,6 +148,7 @@ function valid_semester(int $semester): int
 function handle_admin_action(): string
 {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') return '';
+    verify_csrf_token();
     return match ($_POST['action'] ?? '') {
         'course' => add_course(), 'update_course' => edit_course(), 'course_upload' => upload_courses(),
         'assign' => assign_mentor(), 'request' => update_request(), 'update_user' => edit_user(), 'create_user' => create_user(), 'delete_user' => delete_user(), default => '',
@@ -177,7 +178,7 @@ function create_user(): string
             $role, $name, $username, $email, password_hash($password, PASSWORD_DEFAULT), $department,
             $section, $semester,
         ]);
-    } catch (PDOException $exception) {
+    } catch (mysqli_sql_exception $exception) {
         if ($exception->getCode() === '23000') throw new Exception('That username or email is already in use.');
         throw $exception;
     }
@@ -260,5 +261,50 @@ function update_request(): string
     db()->prepare('UPDATE course_requests SET status=? WHERE id=?')->execute([$status, $requestId]);
     return 'Request updated.';
 }
-function upload_courses(): string { if(empty($_FILES['course_file']['tmp_name'])||$_FILES['course_file']['error']!==UPLOAD_ERR_OK) throw new Exception('Choose a CSV file.'); $file=fopen($_FILES['course_file']['tmp_name'],'r'); $query=db()->prepare('INSERT INTO courses(code,name,credits,semester,type) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE name=VALUES(name),credits=VALUES(credits),semester=VALUES(semester),type=VALUES(type)'); $count=0; while(($row=fgetcsv($file))!==false){if(count($row)<5||strtolower(trim($row[0]))==='code')continue;$query->execute([trim($row[0]),trim($row[1]),(int)$row[2],valid_semester((int)$row[3]),trim($row[4])==='Open Elective'?'Open Elective':'Core']);$count++;}fclose($file);if(!$count)throw new Exception('No valid course rows found.');return "$count course(s) uploaded."; }
-function get_admin_data(): array { $students=db()->query("SELECT s.*,m.name mentor_name FROM users s LEFT JOIN mentor_assignments a ON a.student_id=s.id LEFT JOIN users m ON m.id=a.mentor_id WHERE s.role='student' ORDER BY s.section,s.name")->fetchAll(); $requests=db()->query("SELECT r.*,u.name student_name,u.section,GROUP_CONCAT(c.code SEPARATOR ', ') subjects FROM course_requests r JOIN users u ON u.id=r.student_id LEFT JOIN request_courses rc ON rc.request_id=r.id LEFT JOIN courses c ON c.id=rc.course_id GROUP BY r.id ORDER BY r.created_at DESC")->fetchAll(); return ['student_count'=>countOf('users',"role='student'"),'mentor_count'=>countOf('users',"role='mentor'"),'pending_count'=>countOf('course_requests',"status='pending'"),'course_count'=>countOf('courses'),'mentors'=>db()->query("SELECT * FROM users WHERE role='mentor' ORDER BY name")->fetchAll(),'unassigned'=>array_filter($students,fn($student)=>!$student['mentor_name']),'assigned'=>array_filter($students,fn($student)=>$student['mentor_name']),'courses'=>db()->query('SELECT * FROM courses ORDER BY semester,code')->fetchAll(),'users'=>db()->query("SELECT u.*,m.name mentor_name FROM users u LEFT JOIN mentor_assignments a ON a.student_id=u.id LEFT JOIN users m ON m.id=a.mentor_id ORDER BY u.role,u.name")->fetchAll(),'requests'=>$requests,'pending_requests'=>array_filter($requests,fn($request)=>$request['status']==='pending')]; }
+function upload_courses(): string
+{
+    if (empty($_FILES['course_file']['tmp_name']) || $_FILES['course_file']['error'] !== UPLOAD_ERR_OK) {
+        throw new Exception('Choose a CSV file.');
+    }
+
+    $file = fopen($_FILES['course_file']['tmp_name'], 'r');
+    if (!$file) throw new Exception('The uploaded CSV could not be opened.');
+
+    $query = db()->prepare('INSERT INTO courses(code,name,credits,semester,type) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE name=VALUES(name),credits=VALUES(credits),semester=VALUES(semester),type=VALUES(type)');
+    $count = 0;
+    try {
+        while (($row = fgetcsv($file)) !== false) {
+            if (count($row) < 5 || strtolower(trim($row[0])) === 'code') continue;
+            $query->execute([
+                trim($row[0]), trim($row[1]), (int) $row[2], valid_semester((int) $row[3]),
+                trim($row[4]) === 'Open Elective' ? 'Open Elective' : 'Core',
+            ]);
+            $count++;
+        }
+    } finally {
+        fclose($file);
+    }
+
+    if (!$count) throw new Exception('No valid course rows found.');
+    return "$count course(s) uploaded.";
+}
+
+function get_admin_data(): array
+{
+    $students = db()->query("SELECT s.*,m.name mentor_name FROM users s LEFT JOIN mentor_assignments a ON a.student_id=s.id LEFT JOIN users m ON m.id=a.mentor_id WHERE s.role='student' ORDER BY s.section,s.name")->fetchAll();
+    $requests = db()->query("SELECT r.*,u.name student_name,u.section,GROUP_CONCAT(c.code SEPARATOR ', ') subjects FROM course_requests r JOIN users u ON u.id=r.student_id LEFT JOIN request_courses rc ON rc.request_id=r.id LEFT JOIN courses c ON c.id=rc.course_id GROUP BY r.id ORDER BY r.created_at DESC")->fetchAll();
+
+    return [
+        'student_count' => countOf('users', 'student'),
+        'mentor_count' => countOf('users', 'mentor'),
+        'pending_count' => countOf('course_requests', 'pending'),
+        'course_count' => countOf('courses'),
+        'mentors' => db()->query("SELECT * FROM users WHERE role='mentor' ORDER BY name")->fetchAll(),
+        'unassigned' => array_filter($students, fn($student) => !$student['mentor_name']),
+        'assigned' => array_filter($students, fn($student) => $student['mentor_name']),
+        'courses' => db()->query('SELECT * FROM courses ORDER BY semester,code')->fetchAll(),
+        'users' => db()->query("SELECT u.*,m.name mentor_name FROM users u LEFT JOIN mentor_assignments a ON a.student_id=u.id LEFT JOIN users m ON m.id=a.mentor_id ORDER BY u.role,u.name")->fetchAll(),
+        'requests' => $requests,
+        'pending_requests' => array_filter($requests, fn($request) => $request['status'] === 'pending'),
+    ];
+}

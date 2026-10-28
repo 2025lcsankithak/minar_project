@@ -13,7 +13,7 @@ A role-based PHP and MySQL web application for coordinating student course selec
 ## Requirements
 
 - XAMPP (or another local Apache, PHP, and MySQL/MariaDB setup)
-- PHP 8.0 or later with PDO MySQL enabled
+- PHP 8.0 or later with the MySQLi extension enabled
 - MySQL or MariaDB
 
 ## Setup with XAMPP
@@ -26,7 +26,7 @@ A role-based PHP and MySQL web application for coordinating student course selec
 
 > **Database import warning:** the SQL dump drops and recreates the application's tables before inserting its snapshot data. Do not import it over data you need to keep.
 
-The SQL dump contains seeded sample accounts with hashed passwords. It does not document their plaintext passwords; use credentials configured for your own environment or create/reset accounts through the application/database as appropriate.
+The SQL dump contains seeded sample accounts, but it does not include their plaintext passwords. To set a password for the seeded admin account, generate a PHP password hash with `php -r "echo password_hash('YourNewPassword', PASSWORD_DEFAULT), PHP_EOL;"`, then update the `admin` row's `password` value in the `users` table with that hash. Replace `YourNewPassword` with your own password before running the command. Apply the same hash update to other seeded users if you need to use them. Once signed in as admin, create new accounts through the portal; users can change their own password from the student profile.
 
 ## Application flow
 
