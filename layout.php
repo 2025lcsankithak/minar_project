@@ -16,13 +16,13 @@ function page_start(string $title, string $role, string $active = 'dashboard'): 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($title) ?> · Minar Mentorship</title>
+    <title><?= e($title) ?> · Mentor Bond</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css?v=<?= filemtime(__DIR__ . '/assets/style.css') ?>">
 </head>
 <body class="<?= strtolower(e($role)) ?>-portal">
     <style>.sidebar-footer{display:none}.logout-form{margin-left:8px}.logout-link{padding:0;border:0;background:none;box-shadow:none;color:#bd4e2c;font-size:12px;font-weight:800;text-decoration:none}.logout-link:hover{background:none;box-shadow:none;text-decoration:underline}</style>
     <aside class="sidebar">
-        <a class="brand" href="<?= BASE_URL ?>/index.php"><span>✦</span> Minar</a>
+        <a class="brand" href="<?= BASE_URL ?>/index.php"><img class="brand-mark" src="<?= BASE_URL ?>/assets/mentor-bond-emblem.png" alt=""> Mentor<span>Bond</span></a>
         <p class="role-label"><?= e($role) ?> portal</p>
 
         <nav>
@@ -38,7 +38,7 @@ function page_start(string $title, string $role, string $active = 'dashboard'): 
     <main>
         <header>
             <div>
-                <p class="eyebrow">MINAR / MENTORSHIP</p>
+                <p class="eyebrow">MENTOR BOND / MENTORSHIP</p>
                 <h1><?= e($title) ?></h1>
             </div>
             <div class="user-chip" id="profile">

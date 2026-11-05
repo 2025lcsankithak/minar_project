@@ -1,4 +1,4 @@
-# Minar Mentorship Portal
+# Mentor Bond
 
 A role-based PHP and MySQL web application for coordinating student course selections and mentoring. It provides separate dashboards for administrators, mentors, and students, with a shared login/session system.
 
@@ -20,13 +20,13 @@ A role-based PHP and MySQL web application for coordinating student course selec
 
 1. Place this project in the XAMPP web root, for example `C:\xampp\htdocs\minar_project`.
 2. Start **Apache** and **MySQL** from the XAMPP Control Panel.
-3. Import [`database/mentorship_portal.sql`](database/mentorship_portal.sql) using phpMyAdmin or the MySQL command line. The dump creates and populates the `mentorship_portal` database.
+3. Import [`database/mentorship_portal.sql`](database/mentorship_portal.sql) using phpMyAdmin or the MySQL command line. The dump creates the `mentorship_portal` database and includes its admin account.
 4. Check the database constants and `BASE_URL` in [`config.php`](config.php). The defaults are database `mentorship_portal`, host `localhost`, user `root`, an empty password, and base URL `/minar_project`.
 5. Visit `http://localhost/minar_project/` and choose a role to sign in.
 
 > **Database import warning:** the SQL dump drops and recreates the application's tables before inserting its snapshot data. Do not import it over data you need to keep.
 
-The SQL dump contains seeded sample accounts, but it does not include their plaintext passwords. To set a password for the seeded admin account, generate a PHP password hash with `php -r "echo password_hash('YourNewPassword', PASSWORD_DEFAULT), PHP_EOL;"`, then update the `admin` row's `password` value in the `users` table with that hash. Replace `YourNewPassword` with your own password before running the command. Apply the same hash update to other seeded users if you need to use them. Once signed in as admin, create new accounts through the portal; users can change their own password from the student profile.
+The SQL dump does not include a plaintext password. To set a password for the admin account, generate a PHP password hash with `php -r "echo password_hash('YourNewPassword', PASSWORD_DEFAULT), PHP_EOL;"`, then update the `admin` row's `password` value in the `users` table with that hash. Replace `YourNewPassword` with your own password before running the command. Once signed in as admin, create new accounts through the portal; users can change their own password from the student profile.
 
 ## Application flow
 

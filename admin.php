@@ -107,7 +107,7 @@ page_start($view === 'dashboard' ? 'Admin dashboard' : ucfirst($view), 'Admin', 
         <form method="post" class="form-grid"><?= csrf_field() ?><input type="hidden" name="action" value="create_user">
             <label>Role<select name="role" required><option value="student">Student</option><option value="mentor">Mentor</option></select></label>
             <label>Full name<input required name="name" autocomplete="name"></label>
-            <label>Login username<input required name="username" autocomplete="username"></label>
+            <label>Login username<input required name="username" autocomplete="username"><small>Username must be unique. If it is already in use, choose another.</small></label>
             <label>Login email<input required type="email" name="email" autocomplete="email"></label>
             <label>Password<input required type="password" name="password" minlength="8" autocomplete="new-password"></label>
             <label>Department<input required name="department"></label>
@@ -173,13 +173,34 @@ function create_user(): string
     $semester = valid_semester((int) ($_POST['semester'] ?? 0));
     if ($section === '') throw new Exception('Enter a section for this account.');
 
+    $usernameLookup = db()->prepare('SELECT 1 FROM users WHERE username = ? LIMIT 1');
+    $usernameLookup->execute([$username]);
+    if ($usernameLookup->fetchColumn() !== false) {
+        throw new Exception('That username is already in use. Please choose another username.');
+    }
+
+    $emailLookup = db()->prepare('SELECT 1 FROM users WHERE email = ? LIMIT 1');
+    $emailLookup->execute([$email]);
+    if ($emailLookup->fetchColumn() !== false) {
+        throw new Exception('That email address is already in use.');
+    }
+
     try {
         db()->prepare('INSERT INTO users(role,name,username,email,password,department,section,semester) VALUES(?,?,?,?,?,?,?,?)')->execute([
             $role, $name, $username, $email, password_hash($password, PASSWORD_DEFAULT), $department,
             $section, $semester,
         ]);
     } catch (mysqli_sql_exception $exception) {
-        if ($exception->getCode() === '23000') throw new Exception('That username or email is already in use.');
+        if ($exception->getCode() === 1062) {
+            $duplicate = strtolower($exception->getMessage());
+            if (str_contains($duplicate, 'username')) {
+                throw new Exception('That username is already in use. Please choose another username.');
+            }
+            if (str_contains($duplicate, 'email')) {
+                throw new Exception('That email address is already in use.');
+            }
+            throw new Exception('An account already uses that username or email.');
+        }
         throw $exception;
     }
     return ucfirst($role) . ' account created.';

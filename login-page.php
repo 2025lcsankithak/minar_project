@@ -15,13 +15,13 @@ unset($_SESSION['login_error']);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($heading) ?> · Minar Mentorship</title>
+    <title><?= e($heading) ?> · Mentor Bond</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css?v=<?= filemtime(__DIR__ . '/assets/style.css') ?>">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/login.css?v=<?= filemtime(__DIR__ . '/assets/login.css') ?>">
 </head>
 <body class="landing <?= strtolower(e($portalRole)) ?>-portal">
     <section class="login-shell">
-        <a class="brand" href="<?= BASE_URL ?>/index.php"><span>✦</span> Minar</a>
+        <a class="brand" href="<?= BASE_URL ?>/index.php"><img class="brand-mark" src="<?= BASE_URL ?>/assets/mentor-bond-emblem.png" alt=""> Mentor<span>Bond</span></a>
         <div class="login-card">
             <p class="eyebrow"><?= strtoupper($portalRole) ?> PORTAL</p>
             <h1><?= e($heading) ?></h1>
